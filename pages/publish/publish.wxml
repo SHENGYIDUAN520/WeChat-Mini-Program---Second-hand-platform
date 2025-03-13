@@ -1,0 +1,106 @@
+<view class="container" animation="{{animationData}}">
+  <form bindsubmit="submitForm" class="publish-form">
+    <!-- 基本信息 -->
+    <view class="form-group">
+      <view class="form-group-title">基本信息</view>
+      
+      <view class="form-item">
+        <view class="form-label required">商品标题</view>
+        <input class="form-input {{formErrors.title ? 'error' : ''}}" placeholder="请输入商品标题（最多30字）" maxlength="30" value="{{title}}" bindinput="onInputTitle" />
+        <view class="error-tip" wx:if="{{formErrors.title}}">{{formErrors.title}}</view>
+      </view>
+
+      <view class="form-item">
+        <view class="form-label required">商品价格</view>
+        <input class="form-input {{formErrors.price ? 'error' : ''}}" type="digit" placeholder="请输入商品价格" value="{{price}}" bindinput="onInputPrice" />
+        <view class="error-tip" wx:if="{{formErrors.price}}">{{formErrors.price}}</view>
+        <view class="tips">请输入合理的价格，吸引更多买家</view>
+      </view>
+
+      <view class="form-item">
+        <view class="form-label">原价（选填）</view>
+        <input class="form-input" type="digit" placeholder="请输入商品原价" value="{{originalPrice}}" bindinput="onInputOriginalPrice" />
+      </view>
+
+      <view class="form-item">
+        <view class="form-label required">商品分类</view>
+        <view class="category-picker">
+          <picker bindchange="onCategoryChange" value="{{category}}" range="{{categories}}" range-key="name">
+            <view class="picker {{formErrors.category ? 'error' : ''}}">
+              <text wx:if="{{category}}">{{categories[category].name}}</text>
+              <text wx:else class="placeholder">请选择商品分类</text>
+            </view>
+          </picker>
+        </view>
+        <view class="error-tip" wx:if="{{formErrors.category}}">{{formErrors.category}}</view>
+      </view>
+    </view>
+
+    <!-- 商品详情 -->
+    <view class="form-group">
+      <view class="form-group-title">商品详情</view>
+      
+      <view class="form-item">
+        <view class="form-label">新旧程度</view>
+        <slider bindchange="onConditionChange" min="1" max="10" value="{{condition}}" activeColor="#FB7299" backgroundColor="#f5f5f5" block-color="#FB7299" show-value />
+        <view class="condition-labels">
+          <text class="condition-label">全新</text>
+          <text class="condition-label">几乎全新</text>
+          <text class="condition-label">轻微使用痕迹</text>
+          <text class="condition-label">明显使用痕迹</text>
+        </view>
+      </view>
+
+      <view class="form-item">
+        <view class="form-label">交易地点</view>
+        <input class="form-input" placeholder="请输入交易地点" value="{{location}}" bindinput="onInputLocation" />
+      </view>
+
+      <view class="form-item">
+        <view class="form-label required">商品描述</view>
+        <textarea class="form-textarea {{formErrors.description ? 'error' : ''}}" placeholder="请详细描述一下商品的成色、使用感受等信息" maxlength="500" value="{{description}}" bindinput="onInputDescription"></textarea>
+        <view class="error-tip" wx:if="{{formErrors.description}}">{{formErrors.description}}</view>
+        <view class="tips">详细的描述可以提高成交率哦~</view>
+        <view class="word-count">{{description.length}}/500</view>
+      </view>
+    </view>
+
+    <!-- 商品图片 -->
+    <view class="form-group">
+      <view class="form-group-title">商品图片</view>
+      
+      <view class="form-item">
+        <view class="form-label required">上传图片 ({{images.length}}/9)</view>
+        <view class="image-list {{formErrors.images ? 'error-border' : ''}}">
+          <view class="image-item" wx:for="{{images}}" wx:key="index">
+            <image src="{{item}}" mode="aspectFill" bindtap="previewImage" data-src="{{item}}"></image>
+            <view class="delete-btn" catchtap="deleteImage" data-index="{{index}}">×</view>
+          </view>
+          <view class="image-add" bindtap="chooseImage" wx:if="{{images.length < 9}}">
+            <text>+</text>
+          </view>
+        </view>
+        <view class="error-tip" wx:if="{{formErrors.images}}">{{formErrors.images}}</view>
+        <view class="tips">第一张图片将作为商品主图</view>
+      </view>
+    </view>
+
+    <!-- 提交按钮 -->
+    <button class="submit-btn" type="primary" disabled="{{uploading}}" form-type="submit">
+      {{uploading ? '发布中...' : '立即发布'}}
+    </button>
+  </form>
+  
+  <!-- 发布成功弹窗 -->
+  <view class="success-modal" wx:if="{{showSuccessModal}}">
+    <view class="success-content">
+      <view class="success-icon">✓</view>
+      <view class="success-title">发布成功</view>
+      <view class="success-desc">您的商品已成功发布</view>
+      <view class="success-actions">
+        <button class="success-btn primary" bindtap="goToDetail">查看商品</button>
+        <button class="success-btn" bindtap="goToHome">返回首页</button>
+      </view>
+    </view>
+  </view>
+</view> 

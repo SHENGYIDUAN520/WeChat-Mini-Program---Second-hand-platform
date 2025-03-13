@@ -1,0 +1,97 @@
+<!--index.wxml-->
+<view class="container">
+  <!-- 搜索框 -->
+  <view class="search-bar" bindtap="navigateToSearch">
+    <view class="search-input-wrap">
+      <text class="iconfont icon-search"></text>
+      <view class="search-placeholder">搜索二次元周边</view>
+    </view>
+  </view>
+
+  <!-- 轮播图 -->
+  <view class="swiper-container animate-fade-in">
+    <swiper class="swiper" indicator-dots="{{true}}" autoplay="{{true}}" interval="{{3000}}" duration="{{500}}" circular="{{true}}" indicator-color="rgba(255, 255, 255, 0.6)" indicator-active-color="#FB7299" bindchange="swiperChange">
+      <swiper-item class="swiper-item" wx:for="{{banners}}" wx:key="id" bindtap="navigateToBanner" data-id="{{item.id}}">
+        <image class="swiper-image" src="{{item.image}}" mode="aspectFill"></image>
+        <view class="swiper-title">{{item.title}}</view>
+      </swiper-item>
+    </swiper>
+  </view>
+
+  <!-- 分类导航 -->
+  <view class="category-nav animate-fade-in" style="animation-delay: 0.1s;">
+    <view class="category-item" wx:for="{{categories}}" wx:key="id" bindtap="navigateToCategory" data-id="{{item.id}}">
+      <view class="category-icon">
+        <image src="{{item.icon}}" mode="aspectFit"></image>
+      </view>
+      <view class="category-name">{{item.name}}</view>
+    </view>
+  </view>
+
+  <!-- 推荐商品 -->
+  <view class="goods-section animate-fade-in" style="animation-delay: 0.2s;">
+    <view class="section-header">
+      <view class="section-title">推荐商品</view>
+      <view class="section-more" bindtap="navigateToMore" data-type="recommend">查看更多</view>
+    </view>
+    <view class="goods-list">
+      <view class="goods-item" wx:for="{{recommendGoods}}" wx:key="_id" bindtap="navigateToDetail" data-id="{{item._id}}">
+        <view class="goods-image">
+          <image src="{{item.images[0]}}" mode="aspectFill" style="width: 100%; height: 100%;"></image>
+          <view class="goods-tag" wx:if="{{item.isNew}}">新品</view>
+        </view>
+        <view class="goods-info">
+          <view class="goods-title">{{item.title}}</view>
+          <view class="goods-price">{{item.price}}</view>
+          <view class="goods-meta">
+            <text>{{item.location || '未知位置'}}</text>
+            <text>{{item.views || 0}}浏览</text>
+          </view>
+        </view>
+      </view>
+      <!-- 如果没有推荐商品，显示提示 -->
+      <view class="empty-tip" wx:if="{{recommendGoods.length === 0}}">
+        <text>暂无推荐商品</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 最新上架 -->
+  <view class="goods-section animate-fade-in" style="animation-delay: 0.3s;">
+    <view class="section-header">
+      <view class="section-title">最新上架</view>
+      <view class="section-more" bindtap="navigateToMore" data-type="new">查看更多</view>
+    </view>
+    <view class="goods-list">
+      <view class="goods-item" wx:for="{{newGoods}}" wx:key="_id" bindtap="navigateToDetail" data-id="{{item._id}}">
+        <view class="goods-image">
+          <image src="{{item.images[0]}}" mode="aspectFill" style="width: 100%; height: 100%;"></image>
+          <view class="goods-tag" wx:if="{{item.isHot}}">热门</view>
+        </view>
+        <view class="goods-info">
+          <view class="goods-title">{{item.title}}</view>
+          <view class="goods-price">{{item.price}}</view>
+          <view class="goods-meta">
+            <text>{{item.location || '未知位置'}}</text>
+            <text>{{item.views || 0}}浏览</text>
+          </view>
+        </view>
+      </view>
+      <!-- 如果没有最新商品，显示提示 -->
+      <view class="empty-tip" wx:if="{{newGoods.length === 0}}">
+        <text>暂无最新商品</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 加载更多 -->
+  <view class="loading" wx:if="{{loading}}">
+    <view class="loading-dot"></view>
+    <view class="loading-dot"></view>
+    <view class="loading-dot"></view>
+  </view>
+  <view class="load-more" wx:else bindtap="loadMore">{{hasMore ? '点击加载更多' : '没有更多了~'}}</view>
+  
+  <!-- 隐藏的更新按钮，长按5秒触发 -->
+  <button class="hidden-btn" bindlongpress="updateGoodsStatus">更新商品状态</button>
+</view>

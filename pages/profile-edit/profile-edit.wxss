@@ -1,0 +1,255 @@
+/* pages/profile-edit/profile-edit.wxss */
+page {
+  --theme-color: #FB7299;
+  --bg-color: #f8f8fa;
+  --text-color: #333;
+  --light-text: #999;
+  --border-color: #eee;
+  --shadow-color: rgba(251, 114, 153, 0.1);
+  background-color: var(--bg-color);
+  font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+}
+
+/* 动画效果 */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.profile-edit-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  animation: fadeIn 0.3s ease;
+}
+
+/* 顶部导航栏 */
+.nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 90rpx;
+  background-color: var(--theme-color);
+  color: #fff;
+  padding: 0 30rpx;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
+}
+
+.nav-back {
+  width: 60rpx;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-title {
+  font-size: 34rpx;
+  font-weight: bold;
+}
+
+.nav-right {
+  width: 60rpx;
+}
+
+/* 头像编辑区域 */
+.avatar-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60rpx 0;
+  background-color: #fff;
+  margin-bottom: 30rpx;
+  animation: fadeIn 0.5s ease;
+}
+
+.avatar-wrapper {
+  position: relative;
+  width: 180rpx;
+  height: 180rpx;
+  margin-bottom: 20rpx;
+}
+
+.avatar {
+  width: 180rpx;
+  height: 180rpx;
+  border-radius: 50%;
+  border: 6rpx solid rgba(251, 114, 153, 0.2);
+  box-shadow: 0 8rpx 24rpx var(--shadow-color);
+}
+
+.avatar-edit-icon {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 60rpx;
+  height: 60rpx;
+  background-color: var(--theme-color);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  box-shadow: 0 4rpx 12rpx rgba(251, 114, 153, 0.3);
+}
+
+.avatar-tip {
+  font-size: 26rpx;
+  color: var(--light-text);
+  margin-top: 10rpx;
+}
+
+/* 表单区域 */
+.form-section {
+  flex: 1;
+  padding: 0 30rpx;
+  animation: fadeIn 0.5s ease 0.1s forwards;
+  opacity: 0;
+}
+
+.form-group {
+  background-color: #fff;
+  border-radius: 16rpx;
+  overflow: hidden;
+  box-shadow: 0 4rpx 16rpx var(--shadow-color);
+}
+
+.form-item {
+  padding: 30rpx;
+  border-bottom: 1rpx solid var(--border-color);
+  position: relative;
+}
+
+.form-item:last-child {
+  border-bottom: none;
+}
+
+.form-item::after {
+  content: '';
+  position: absolute;
+  left: 30rpx;
+  right: 30rpx;
+  bottom: 0;
+  height: 1rpx;
+  background: linear-gradient(to right, transparent, var(--border-color), transparent);
+  transform: scaleY(0.5);
+}
+
+.form-item:last-child::after {
+  display: none;
+}
+
+.form-label {
+  font-size: 28rpx;
+  color: var(--light-text);
+  margin-bottom: 20rpx;
+}
+
+.form-input {
+  height: 80rpx;
+  font-size: 30rpx;
+  color: var(--text-color);
+  padding: 0 20rpx;
+  background-color: #f8f8f8;
+  border-radius: 8rpx;
+}
+
+.form-radio-group {
+  display: flex;
+}
+
+.form-radio {
+  display: flex;
+  align-items: center;
+  margin-right: 60rpx;
+  padding: 10rpx 0;
+}
+
+.radio-icon {
+  color: var(--light-text);
+  font-size: 40rpx;
+  margin-right: 10rpx;
+}
+
+.form-radio.active .radio-icon {
+  color: var(--theme-color);
+}
+
+.radio-text {
+  font-size: 30rpx;
+  color: var(--text-color);
+}
+
+.form-picker {
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 30rpx;
+  color: var(--text-color);
+  padding: 0 20rpx;
+  background-color: #f8f8f8;
+  border-radius: 8rpx;
+}
+
+.picker-arrow {
+  font-size: 24rpx;
+  color: var(--light-text);
+}
+
+.form-textarea {
+  width: 100%;
+  height: 200rpx;
+  font-size: 30rpx;
+  color: var(--text-color);
+  padding: 20rpx;
+  background-color: #f8f8f8;
+  border-radius: 8rpx;
+  box-sizing: border-box;
+}
+
+.textarea-counter {
+  text-align: right;
+  font-size: 24rpx;
+  color: var(--light-text);
+  margin-top: 10rpx;
+}
+
+/* 保存按钮 */
+.save-btn {
+  margin: 60rpx 30rpx;
+  height: 90rpx;
+  line-height: 90rpx;
+  text-align: center;
+  background-color: var(--theme-color);
+  color: #fff;
+  font-size: 32rpx;
+  border-radius: 45rpx;
+  box-shadow: 0 8rpx 16rpx rgba(251, 114, 153, 0.3);
+  transition: all 0.3s ease;
+  animation: fadeIn 0.5s ease 0.2s forwards;
+  opacity: 0;
+}
+
+.save-btn:active {
+  transform: scale(0.98);
+  box-shadow: 0 4rpx 8rpx rgba(251, 114, 153, 0.3);
+  background-color: #e85d84;
+}
+
+/* 图标 */
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 36rpx;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+} 

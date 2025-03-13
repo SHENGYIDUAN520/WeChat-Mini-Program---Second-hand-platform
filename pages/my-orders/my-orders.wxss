@@ -1,0 +1,253 @@
+/* pages/my-orders/my-orders.wxss */
+.container {
+  padding: 30rpx;
+  background-color: var(--background-color);
+  min-height: 100vh;
+}
+
+/* 标签页 */
+.tabs {
+  display: flex;
+  background-color: #fff;
+  border-radius: 16rpx;
+  margin-bottom: 30rpx;
+  overflow: hidden;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.05);
+}
+
+.tab {
+  flex: 1;
+  text-align: center;
+  padding: 30rpx 0;
+  font-size: 28rpx;
+  color: var(--light-text);
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.tab.active {
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+.tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60rpx;
+  height: 6rpx;
+  background-color: var(--primary-color);
+  border-radius: 3rpx;
+}
+
+/* 订单列表 */
+.orders-list {
+  padding-bottom: 30rpx;
+}
+
+.order-item {
+  background-color: #fff;
+  border-radius: 16rpx;
+  margin-bottom: 20rpx;
+  overflow: hidden;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  animation: fadeIn 0.5s ease forwards;
+  opacity: 0;
+}
+
+.order-item:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.order-item:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.order-item:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+.order-item:active {
+  transform: scale(0.98);
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 30rpx;
+  border-bottom: 1rpx solid rgba(0, 0, 0, 0.05);
+}
+
+.order-id {
+  font-size: 24rpx;
+  color: var(--light-text);
+}
+
+.order-status {
+  font-size: 24rpx;
+  font-weight: bold;
+}
+
+.order-status.pending {
+  color: #fa8c16;
+}
+
+.order-status.processing {
+  color: #73C9E5;
+}
+
+.order-status.completed {
+  color: #52c41a;
+}
+
+.order-status.canceled {
+  color: var(--light-text);
+}
+
+.order-content {
+  display: flex;
+  padding: 20rpx 30rpx;
+  border-bottom: 1rpx solid rgba(0, 0, 0, 0.05);
+}
+
+.goods-image {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 12rpx;
+  margin-right: 20rpx;
+  box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.1);
+}
+
+.order-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.goods-title {
+  font-size: 28rpx;
+  color: var(--text-color);
+  margin-bottom: 10rpx;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+}
+
+.order-price {
+  font-size: 32rpx;
+  color: var(--primary-color);
+  font-weight: bold;
+  margin-bottom: 10rpx;
+}
+
+.order-time {
+  font-size: 24rpx;
+  color: var(--light-text);
+}
+
+.order-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 30rpx;
+}
+
+.seller-info, .buyer-info {
+  font-size: 24rpx;
+  color: var(--text-color);
+}
+
+.action-btn {
+  padding: 12rpx 30rpx;
+  font-size: 24rpx;
+  border-radius: 40rpx;
+  background-color: var(--secondary-color);
+  color: #fff;
+  box-shadow: 0 4rpx 8rpx rgba(115, 201, 229, 0.3);
+  transition: all 0.3s ease;
+}
+
+.action-btn:active {
+  transform: scale(0.95);
+}
+
+.action-btn.pending {
+  background-color: #fa8c16;
+  box-shadow: 0 4rpx 8rpx rgba(250, 140, 22, 0.3);
+}
+
+.action-btn.completed {
+  background-color: #52c41a;
+  box-shadow: 0 4rpx 8rpx rgba(82, 196, 26, 0.3);
+}
+
+.action-btn.canceled {
+  background-color: var(--light-text);
+  box-shadow: 0 4rpx 8rpx rgba(153, 153, 153, 0.3);
+}
+
+/* 空状态 */
+.empty-tip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 100rpx 0;
+}
+
+.empty-icon {
+  width: 240rpx;
+  height: 240rpx;
+  margin-bottom: 30rpx;
+}
+
+.empty-text {
+  font-size: 28rpx;
+  color: var(--light-text);
+}
+
+/* 加载中 */
+.loading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300rpx;
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.loading-spinner {
+  width: 80rpx;
+  height: 80rpx;
+  border: 6rpx solid rgba(251, 114, 153, 0.1);
+  border-top: 6rpx solid var(--primary-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20rpx;
+}
+
+.loading-text {
+  font-size: 28rpx;
+  color: var(--light-text);
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20rpx); }
+  to { opacity: 1; transform: translateY(0); }
+} 

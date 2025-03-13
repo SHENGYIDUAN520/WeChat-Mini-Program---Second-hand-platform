@@ -1,0 +1,55 @@
+<!-- pages/my-favorites/my-favorites.wxml -->
+<view class="container">
+  <view class="header">
+    <view class="title">我的收藏</view>
+    <view class="subtitle">共{{favorites.length}}件商品</view>
+  </view>
+
+  <!-- 加载中 -->
+  <view class="loading-container" wx:if="{{loading}}">
+    <view class="loading">
+      <image class="loading-icon" src="/images/loading.gif" mode="aspectFit"></image>
+      <text class="loading-text">加载中...</text>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-container" wx:elif="{{isEmpty}}">
+    <image class="empty-icon" src="/images/empty-favorite.png" mode="aspectFit"></image>
+    <view class="empty-text">暂无收藏商品</view>
+    <view class="empty-tip">去首页发现更多好物吧</view>
+    <navigator url="/pages/index/index" open-type="switchTab" class="go-home-btn">去逛逛</navigator>
+  </view>
+
+  <!-- 收藏列表 -->
+  <view class="favorites-list" wx:else>
+    <view class="favorite-item" wx:for="{{favorites}}" wx:key="_id">
+      <view class="goods-card" bindtap="goToDetail" data-id="{{item.goodsId}}">
+        <image class="goods-image" src="{{item.goods.images[0]}}" mode="aspectFill" lazy-load></image>
+        <view class="goods-info">
+          <view class="goods-title">{{item.goods.title}}</view>
+          <view class="goods-price">¥{{item.goods.price}}</view>
+          <view class="goods-meta">
+            <text class="goods-condition">{{item.goods.condition}}成新</text>
+            <text class="goods-views">{{item.goods.viewCount || 0}}人看过</text>
+          </view>
+        </view>
+      </view>
+      <view class="action-bar">
+        <view class="action-time">收藏于 {{item.createTime}}</view>
+        <view class="action-btns">
+          <button class="action-btn cancel-btn" bindtap="cancelFavorite" data-index="{{index}}">取消收藏</button>
+          <button class="action-btn contact-btn" open-type="contact" data-goodsid="{{item.goodsId}}">联系卖家</button>
+        </view>
+      </view>
+    </view>
+
+    <!-- 加载更多 -->
+    <view class="load-more" wx:if="{{hasMore}}">
+      <text class="load-more-text">上拉加载更多</text>
+    </view>
+    <view class="load-more" wx:else>
+      <text class="load-more-text">没有更多了</text>
+    </view>
+  </view>
+</view> 

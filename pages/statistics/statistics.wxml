@@ -1,0 +1,127 @@
+<!-- pages/statistics/statistics.wxml -->
+<view class="container">
+  <view class="header">
+    <view class="title">数据统计分析</view>
+    <view class="export-btn" bindtap="exportData">导出数据</view>
+  </view>
+
+  <!-- 标签页 -->
+  <view class="tabs">
+    <view class="tab {{activeTab === 0 ? 'active' : ''}}" bindtap="switchTab" data-index="0">交易统计</view>
+    <view class="tab {{activeTab === 1 ? 'active' : ''}}" bindtap="switchTab" data-index="1">商品分析</view>
+    <view class="tab {{activeTab === 2 ? 'active' : ''}}" bindtap="switchTab" data-index="2">用户分析</view>
+  </view>
+
+  <!-- 加载中 -->
+  <view class="loading-container" wx:if="{{loading}}">
+    <view class="loading">
+      <view class="loading-spinner"></view>
+      <view class="loading-text">加载中...</view>
+    </view>
+  </view>
+
+  <!-- 交易统计 -->
+  <view class="content" wx:if="{{!loading && activeTab === 0}}">
+    <!-- 数据卡片 -->
+    <view class="data-cards">
+      <view class="data-card">
+        <view class="card-value">¥{{tradeStats.totalTrade}}</view>
+        <view class="card-label">总交易额</view>
+      </view>
+      <view class="data-card">
+        <view class="card-value">{{tradeStats.totalOrders}}</view>
+        <view class="card-label">总订单数</view>
+      </view>
+      <view class="data-card">
+        <view class="card-value">{{tradeStats.completedOrders}}</view>
+        <view class="card-label">已完成订单</view>
+      </view>
+      <view class="data-card">
+        <view class="card-value">{{tradeStats.pendingOrders}}</view>
+        <view class="card-label">待处理订单</view>
+      </view>
+    </view>
+
+    <!-- 订单状态分布 -->
+    <view class="chart-section">
+      <view class="section-title">订单状态分布</view>
+      <view class="pie-chart">
+        <canvas canvas-id="orderStatusChart" style="width: 100%; height: 300px;"></canvas>
+      </view>
+    </view>
+
+    <!-- 周交易趋势 -->
+    <view class="chart-section">
+      <view class="section-title">周交易趋势</view>
+      <view class="line-chart">
+        <canvas canvas-id="weeklyTrendChart" style="width: 100%; height: 300px;"></canvas>
+      </view>
+    </view>
+  </view>
+
+  <!-- 商品分析 -->
+  <view class="content" wx:if="{{!loading && activeTab === 1}}">
+    <!-- 数据卡片 -->
+    <view class="data-cards">
+      <view class="data-card">
+        <view class="card-value">{{goodsStats.totalGoods}}</view>
+        <view class="card-label">总商品数</view>
+      </view>
+      <view class="data-card">
+        <view class="card-value">{{goodsStats.onSaleGoods}}</view>
+        <view class="card-label">在售商品</view>
+      </view>
+      <view class="data-card">
+        <view class="card-value">{{goodsStats.soldGoods}}</view>
+        <view class="card-label">已售商品</view>
+      </view>
+      <view class="data-card">
+        <view class="card-value">{{goodsStats.offShelfGoods}}</view>
+        <view class="card-label">下架商品</view>
+      </view>
+    </view>
+
+    <!-- 分类分布 -->
+    <view class="chart-section">
+      <view class="section-title">商品分类分布</view>
+      <view class="pie-chart">
+        <canvas canvas-id="categoryDistributionChart" style="width: 100%; height: 300px;"></canvas>
+      </view>
+    </view>
+
+    <!-- 价格分布 -->
+    <view class="chart-section">
+      <view class="section-title">商品价格分布</view>
+      <view class="bar-chart">
+        <canvas canvas-id="priceDistributionChart" style="width: 100%; height: 300px;"></canvas>
+      </view>
+    </view>
+  </view>
+
+  <!-- 用户分析 -->
+  <view class="content" wx:if="{{!loading && activeTab === 2}}">
+    <!-- 数据卡片 -->
+    <view class="data-cards">
+      <view class="data-card">
+        <view class="card-value">{{userStats.totalUsers}}</view>
+        <view class="card-label">总用户数</view>
+      </view>
+      <view class="data-card">
+        <view class="card-value">{{userStats.activeUsers}}</view>
+        <view class="card-label">活跃用户</view>
+      </view>
+      <view class="data-card">
+        <view class="card-value">{{userStats.newUsers}}</view>
+        <view class="card-label">新增用户</view>
+      </view>
+    </view>
+
+    <!-- 用户增长趋势 -->
+    <view class="chart-section">
+      <view class="section-title">用户增长趋势</view>
+      <view class="line-chart">
+        <canvas canvas-id="userGrowthChart" style="width: 100%; height: 300px;"></canvas>
+      </view>
+    </view>
+  </view>
+</view> 

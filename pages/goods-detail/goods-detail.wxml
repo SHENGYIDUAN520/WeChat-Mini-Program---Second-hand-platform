@@ -1,0 +1,114 @@
+<view class="container">
+  <!-- 轮播图 -->
+  <view class="swiper-container">
+    <swiper class="swiper" indicator-dots="{{false}}" autoplay="{{true}}" interval="{{3000}}" duration="{{500}}" circular="{{true}}">
+      <swiper-item class="swiper-item" wx:for="{{goods.images}}" wx:key="index">
+        <image class="swiper-image" src="{{item}}" mode="aspectFill" bindtap="previewImage" data-index="{{index}}"></image>
+      </swiper-item>
+    </swiper>
+    <view class="indicator">{{current + 1}}/{{goods.images.length}}</view>
+  </view>
+
+  <!-- 商品信息 -->
+  <view class="goods-info">
+    <view class="goods-title">{{goods.title}}</view>
+    <view class="price-container">
+      <text class="price-symbol">¥</text>
+      <text class="goods-price">{{goods.price}}</text>
+    </view>
+    <view class="goods-meta">
+      <view class="meta-item">
+        <text class="meta-label">分类：</text>
+        <text class="meta-value">{{goods.category}}</text>
+      </view>
+      <view class="meta-item">
+        <text class="meta-label">发布时间：</text>
+        <text class="meta-value">{{goods.createTime}}</text>
+      </view>
+    </view>
+    <view class="goods-tags">
+      <view class="tag tag-primary" wx:if="{{goods.isNew}}">全新</view>
+      <view class="tag tag-secondary" wx:if="{{goods.canBargain}}">可议价</view>
+      <view class="tag tag-warning" wx:if="{{goods.isHot}}">热门</view>
+    </view>
+  </view>
+
+  <!-- 卖家信息 -->
+  <view class="seller-info">
+    <view class="seller-avatar">
+      <image src="{{seller.avatarUrl || '/images/default-avatar.png'}}" mode="aspectFill"></image>
+    </view>
+    <view class="seller-detail">
+      <view class="seller-name">{{seller.nickName || '未知用户'}}</view>
+      <!-- 添加卖家评分 -->
+      <view class="seller-rating" wx:if="{{seller.sellerRating}}">
+        <text class="star {{seller.sellerRating >= 1 ? 'active' : ''}}">★</text>
+        <text class="star {{seller.sellerRating >= 2 ? 'active' : ''}}">★</text>
+        <text class="star {{seller.sellerRating >= 3 ? 'active' : ''}}">★</text>
+        <text class="star {{seller.sellerRating >= 4 ? 'active' : ''}}">★</text>
+        <text class="star {{seller.sellerRating >= 5 ? 'active' : ''}}">★</text>
+        <text class="rating-value">{{seller.sellerRating.toFixed(1)}} ({{seller.sellerReviewCount || 0}}条评价)</text>
+      </view>
+      <view class="seller-rating" wx:else>
+        <text class="rating-value">暂无评价</text>
+      </view>
+    </view>
+    <view class="contact-seller-btn" bindtap="contactSeller">联系卖家</view>
+  </view>
+
+  <!-- 商品详情 -->
+  <view class="detail-section animate-fade-in">
+    <view class="section-title">商品详情</view>
+    <view class="goods-description">{{goods.description || '暂无详细描述'}}</view>
+    <view class="detail-item" wx:if="{{goods.brand}}">
+      <view class="detail-label">品牌</view>
+      <view class="detail-value">{{goods.brand}}</view>
+    </view>
+    <view class="detail-item" wx:if="{{goods.condition}}">
+      <view class="detail-label">成色</view>
+      <view class="detail-value">{{goods.condition}}</view>
+    </view>
+    <view class="detail-item" wx:if="{{goods.campus}}">
+      <view class="detail-label">校区</view>
+      <view class="detail-value">{{goods.campus}}</view>
+    </view>
+  </view>
+
+  <!-- 商品评价入口 -->
+  <view class="goods-reviews animate-fade-in" bindtap="viewGoodsReviews">
+    <view class="reviews-title">商品评价</view>
+    <view class="reviews-summary" wx:if="{{seller.sellerRating}}">
+      <view class="reviews-rating">
+        <text class="star {{seller.sellerRating >= 1 ? 'active' : ''}}">★</text>
+        <text class="star {{seller.sellerRating >= 2 ? 'active' : ''}}">★</text>
+        <text class="star {{seller.sellerRating >= 3 ? 'active' : ''}}">★</text>
+        <text class="star {{seller.sellerRating >= 4 ? 'active' : ''}}">★</text>
+        <text class="star {{seller.sellerRating >= 5 ? 'active' : ''}}">★</text>
+        <text class="rating-value">{{seller.sellerRating.toFixed(1)}}</text>
+      </view>
+      <view class="reviews-count">{{seller.sellerReviewCount || 0}}条评价</view>
+    </view>
+    <view class="reviews-summary" wx:else>
+      <view class="reviews-empty">暂无评价</view>
+    </view>
+    <view class="reviews-arrow">查看全部 ></view>
+  </view>
+
+  <!-- 底部操作栏 -->
+  <view class="bottom-bar">
+    <view class="action-left">
+      <view class="action-icon" bindtap="toggleFavorite">
+        <text class="iconfont {{isFavorite ? 'icon-favorite-filled' : 'icon-favorite'}}">{{isFavorite ? '❤️' : '♡'}}</text>
+        <text class="icon-text">{{isFavorite ? '已收藏' : '收藏'}}</text>
+      </view>
+      <view class="action-icon" bindtap="shareGoods">
+        <text class="iconfont icon-share">🔗</text>
+        <text class="icon-text">分享</text>
+      </view>
+    </view>
+    <view class="action-buttons">
+      <button class="action-btn contact-seller" bindtap="contactSeller">联系卖家</button>
+      <button class="action-btn buy-now" bindtap="buyNow">立即购买</button>
+    </view>
+  </view>
+</view> 

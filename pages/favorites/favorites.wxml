@@ -1,0 +1,35 @@
+<!-- pages/favorites/favorites.wxml -->
+<view class="container">
+  <!-- 收藏列表 -->
+  <view class="favorites-list" wx:if="{{!loading && favoritesList.length > 0}}">
+    <view class="goods-item" wx:for="{{favoritesList}}" wx:key="_id" bindtap="goToDetail" data-id="{{item.goodsId}}" data-index="{{index}}">
+      <image class="goods-image" src="{{item.goods.images[0]}}" mode="aspectFill"></image>
+      <view class="goods-info">
+        <view class="goods-title">{{item.goods.title}}</view>
+        <view class="goods-price">¥{{item.goods.price}}</view>
+        <view class="goods-desc">{{item.goods.description}}</view>
+        <view class="goods-meta">
+          <view class="goods-time">{{item.formattedTime}}</view>
+          <view class="goods-status {{item.goods.status}}">{{statusText[item.goods.status]}}</view>
+        </view>
+      </view>
+      <view class="unfavorite-btn" catchtap="removeFavorite" data-id="{{item._id}}">
+        <text class="unfavorite-icon">×</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{!loading && favoritesList.length === 0}}">
+    <image class="empty-icon" src="/images/empty-state.png" mode="aspectFit"></image>
+    <view class="empty-text">暂无收藏</view>
+    <view class="empty-subtext">你还没有收藏任何商品</view>
+    <view class="browse-btn" bindtap="navigateToHome">去逛逛</view>
+  </view>
+
+  <!-- 加载中 -->
+  <view class="loading" wx:if="{{loading}}">
+    <view class="loading-spinner"></view>
+    <view class="loading-text">加载中...</view>
+  </view>
+</view> 

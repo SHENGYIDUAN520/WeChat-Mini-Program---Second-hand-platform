@@ -1,0 +1,107 @@
+<!-- pages/review/review.wxml -->
+<view class="container">
+  <!-- 加载中 -->
+  <view class="loading-container" wx:if="{{loading}}">
+    <view class="loading">
+      <view class="loading-spinner"></view>
+      <view class="loading-text">加载中...</view>
+    </view>
+  </view>
+
+  <block wx:if="{{!loading}}">
+    <view class="goods-info" wx:if="{{goods}}">
+      <image class="goods-image" src="{{goods.images[0]}}" mode="aspectFill"></image>
+      <view class="goods-detail">
+        <view class="goods-title">{{goods.title}}</view>
+        <view class="goods-price">¥{{goods.price}}</view>
+      </view>
+    </view>
+
+    <view class="review-section">
+      <view class="section-title">评分</view>
+      <view class="rating-container">
+        <view class="star-group">
+          <view class="star {{rating >= 1 ? 'active' : ''}}" bindtap="setRating" data-rating="1">
+            <text class="iconfont {{rating >= 1 ? 'icon-star-fill' : 'icon-star'}}"></text>
+          </view>
+          <view class="star {{rating >= 2 ? 'active' : ''}}" bindtap="setRating" data-rating="2">
+            <text class="iconfont {{rating >= 2 ? 'icon-star-fill' : 'icon-star'}}"></text>
+          </view>
+          <view class="star {{rating >= 3 ? 'active' : ''}}" bindtap="setRating" data-rating="3">
+            <text class="iconfont {{rating >= 3 ? 'icon-star-fill' : 'icon-star'}}"></text>
+          </view>
+          <view class="star {{rating >= 4 ? 'active' : ''}}" bindtap="setRating" data-rating="4">
+            <text class="iconfont {{rating >= 4 ? 'icon-star-fill' : 'icon-star'}}"></text>
+          </view>
+          <view class="star {{rating >= 5 ? 'active' : ''}}" bindtap="setRating" data-rating="5">
+            <text class="iconfont {{rating >= 5 ? 'icon-star-fill' : 'icon-star'}}"></text>
+          </view>
+        </view>
+        <view class="rating-text">
+          {{rating == 1 ? '非常差' : ''}}
+          {{rating == 2 ? '差' : ''}}
+          {{rating == 3 ? '一般' : ''}}
+          {{rating == 4 ? '好' : ''}}
+          {{rating == 5 ? '非常好' : ''}}
+        </view>
+      </view>
+    </view>
+
+    <view class="review-section">
+      <view class="section-title">评价标签 <text class="subtitle">(最多选3个)</text></view>
+      <view class="tags-container">
+        <view 
+          wx:for="{{tags}}" 
+          wx:key="*this" 
+          class="tag {{selectedTags.includes(item) ? 'active' : ''}}"
+          bindtap="toggleTag"
+          data-tag="{{item}}">
+          {{item}}
+        </view>
+      </view>
+    </view>
+
+    <view class="review-section">
+      <view class="section-title">评价内容</view>
+      <textarea 
+        class="review-content" 
+        placeholder="请输入您的评价内容，对其他买家有帮助的评价会获得更多赞哦~" 
+        bindinput="onInputContent"
+        value="{{content}}"
+        maxlength="500"></textarea>
+      <view class="word-count">{{content.length}}/500</view>
+    </view>
+
+    <view class="review-section">
+      <view class="section-title">上传图片 <text class="subtitle">(最多{{maxImageCount}}张)</text></view>
+      <view class="image-uploader">
+        <view class="image-list">
+          <view class="image-item" wx:for="{{images}}" wx:key="*this">
+            <image src="{{item}}" mode="aspectFill" bindtap="previewImage" data-src="{{item}}"></image>
+            <view class="delete-btn" catchtap="deleteImage" data-index="{{index}}">
+              <text class="iconfont icon-close"></text>
+            </view>
+          </view>
+          <view class="upload-btn" bindtap="chooseImage" wx:if="{{images.length < maxImageCount}}">
+            <text class="iconfont icon-add"></text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="review-section">
+      <view class="anonymous-option" bindtap="toggleAnonymous">
+        <view class="checkbox {{anonymous ? 'checked' : ''}}">
+          <text class="iconfont icon-check" wx:if="{{anonymous}}"></text>
+        </view>
+        <text>匿名评价</text>
+      </view>
+    </view>
+
+    <view class="submit-btn-container">
+      <button class="submit-btn" bindtap="submitReview" disabled="{{submitting}}">
+        {{submitting ? '提交中...' : '提交评价'}}
+      </button>
+    </view>
+  </block>
+</view> 

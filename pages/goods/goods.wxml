@@ -1,0 +1,146 @@
+<!-- pages/goods/goods.wxml -->
+<view class="container">
+  <!-- 搜索栏 -->
+  <view class="search-bar">
+    <view class="search-input-wrap">
+      <text class="iconfont icon-search"></text>
+      <input class="search-input" placeholder="搜索二次元周边" value="{{searchValue}}" confirm-type="search" bindconfirm="onSearch" />
+      <text class="iconfont icon-close" wx:if="{{searchValue}}" bindtap="clearSearch"></text>
+    </view>
+    <view class="filter-btn" bindtap="toggleFilter">
+      <text class="iconfont icon-filter"></text>
+      <text>筛选</text>
+    </view>
+  </view>
+
+  <!-- 分类列表 -->
+  <scroll-view class="category-scroll" scroll-x="true" enhanced show-scrollbar="{{false}}">
+    <view class="category-list">
+      <view class="category-item {{selectedCategory === '' ? 'active' : ''}}" bindtap="switchCategory" data-id="">
+        <text>全部</text>
+      </view>
+      <view class="category-item {{selectedCategory === item._id ? 'active' : ''}}" 
+            wx:for="{{categories}}" 
+            wx:key="_id" 
+            bindtap="switchCategory" 
+            data-id="{{item._id}}">
+        <text>{{item.name}}</text>
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 筛选面板 -->
+  <view class="filter-panel" wx:if="{{showFilter}}">
+    <view class="filter-title">排序方式</view>
+    <view class="filter-options">
+      <view class="filter-option {{sortType === 'time' ? 'active' : ''}}" bindtap="switchSort" data-type="time">
+        <text>最新发布</text>
+        <text class="iconfont {{sortType === 'time' && sortOrder === 'desc' ? 'icon-arrow-down' : 'icon-arrow-up'}}"></text>
+      </view>
+      <view class="filter-option {{sortType === 'price' ? 'active' : ''}}" bindtap="switchSort" data-type="price">
+        <text>价格</text>
+        <text class="iconfont {{sortType === 'price' && sortOrder === 'desc' ? 'icon-arrow-down' : 'icon-arrow-up'}}"></text>
+      </view>
+      <view class="filter-option {{sortType === 'views' ? 'active' : ''}}" bindtap="switchSort" data-type="views">
+        <text>热度</text>
+        <text class="iconfont {{sortType === 'views' && sortOrder === 'desc' ? 'icon-arrow-down' : 'icon-arrow-up'}}"></text>
+      </view>
+    </view>
+    
+    <!-- 额外筛选条件 -->
+    <view class="filter-title" style="margin-top: 20rpx;">价格区间</view>
+    <view class="filter-options">
+      <view class="filter-option {{priceRange === 'all' ? 'active' : ''}}" bindtap="switchPriceRange" data-range="all">
+        <text>全部</text>
+      </view>
+      <view class="filter-option {{priceRange === 'under50' ? 'active' : ''}}" bindtap="switchPriceRange" data-range="under50">
+        <text>50元以下</text>
+      </view>
+      <view class="filter-option {{priceRange === '50to100' ? 'active' : ''}}" bindtap="switchPriceRange" data-range="50to100">
+        <text>50-100元</text>
+      </view>
+      <view class="filter-option {{priceRange === '100to200' ? 'active' : ''}}" bindtap="switchPriceRange" data-range="100to200">
+        <text>100-200元</text>
+      </view>
+      <view class="filter-option {{priceRange === 'above200' ? 'active' : ''}}" bindtap="switchPriceRange" data-range="above200">
+        <text>200元以上</text>
+      </view>
+    </view>
+    
+    <view class="filter-title" style="margin-top: 20rpx;">商品状态</view>
+    <view class="filter-options">
+      <view class="filter-option {{onlyNew ? 'active' : ''}}" bindtap="toggleOnlyNew">
+        <text>只看新品</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 下拉刷新提示 -->
+  <view class="refresh-container" wx:if="{{isRefreshing}}">
+    <image class="refresh-icon" src="/images/refresh.png"></image>
+    <text class="refresh-text">刷新中...</text>
+  </view>
+
+  <!-- 商品列表 -->
+  <view class="goods-list" wx:if="{{!loading && goodsList.length > 0}}">
+    <view class="goods-item" 
+          wx:for="{{goodsList}}" 
+          wx:key="_id" 
+          bindtap="goToDetail" 
+          data-id="{{item._id}}"
+          style="animation-delay: {{index * 0.05}}s">
+      <image class="goods-image" src="{{item.images[0]}}" mode="aspectFill" lazy-load></image>
+      <view class="goods-info">
+        <view class="goods-title">{{item.title}}</view>
+        <view class="goods-price-row">
+          <view class="goods-price">¥{{item.price}}</view>
+          <view class="goods-original-price" wx:if="{{item.originalPrice}}">¥{{item.originalPrice}}</view>
+        </view>
+        <view class="goods-meta">
+          <text class="goods-location" wx:if="{{item.location}}">{{item.location}}</text>
+          <text class="goods-views">{{item.viewCount || 0}}浏览</text>
+        </view>
+      </view>
+      <view class="goods-tag" wx:if="{{item.isNew}}">新品</view>
+      <view class="goods-tag" wx:elif="{{item.condition >= 9}}" style="background-color: #00AAFF;">全新</view>
+      <view class="goods-tag" wx:elif="{{item.condition <= 3}}" style="background-color: #FF9500;">二手</view>
+    </view>
+  </view>
+
+  <!-- 加载中 -->
+  <view class="loading-container" wx:if="{{loading}}">
+    <view class="loading">
+      <view class="loading-spinner"></view>
+      <view class="loading-text">加载中...</view>
+    </view>
+  </view>
+
+  <!-- 加载更多 -->
+  <view class="loading-more" wx:if="{{loadingMore}}">
+    <view class="loading-spinner"></view>
+    <view class="loading-text">加载更多...</view>
+  </view>
+
+  <!-- 无数据提示 -->
+  <view class="empty-tip" wx:if="{{!loading && goodsList.length === 0}}">
+    <image class="empty-icon" src="/images/empty-goods.png"></image>
+    <view class="empty-text">暂无商品</view>
+    <view class="empty-subtext">快去发布你的二次元周边吧~</view>
+    <view class="empty-action" bindtap="goToPublish">立即发布</view>
+  </view>
+
+  <!-- 到底提示 -->
+  <view class="bottom-tip" wx:if="{{!loading && !loadingMore && !hasMore && goodsList.length > 0}}">
+    <text>已经到底啦 (●'◡'●)</text>
+  </view>
+
+  <!-- 回到顶部按钮 -->
+  <view class="back-to-top" bindtap="backToTop" wx:if="{{showBackToTop}}">
+    <text class="iconfont icon-top"></text>
+  </view>
+  
+  <!-- 悬浮发布按钮 -->
+  <view class="float-publish-btn" bindtap="goToPublish" wx:if="{{goodsList.length > 0}}">
+    <text class="iconfont icon-add"></text>
+  </view>
+</view> 

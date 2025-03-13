@@ -1,0 +1,85 @@
+<!-- pages/about/about.wxml -->
+<view class="container">
+  <view class="header">
+    <image class="logo" src="/images/message.png" mode="aspectFit"></image>
+    <view class="title">校园二手交易平台</view>
+    <view class="version">版本 1.0.0</view>
+  </view>
+
+  <view class="content">
+    <view class="section">
+      <view class="section-title">平台介绍</view>
+      <view class="section-content">
+        <text>校园二手交易平台是一个专为大学生打造的二手物品交易平台，旨在为校园内的闲置物品提供一个安全、便捷的交易环境。我们致力于促进校园资源的循环利用，减少浪费，让闲置物品焕发新的价值。</text>
+      </view>
+    </view>
+
+    <view class="section">
+      <view class="section-title">平台特色</view>
+      <view class="section-content">
+        <view class="feature-item">
+          <text class="feature-icon">🔒</text>
+          <view class="feature-info">
+            <view class="feature-title">安全可靠</view>
+            <view class="feature-desc">实名认证，保障交易安全</view>
+          </view>
+        </view>
+        <view class="feature-item">
+          <text class="feature-icon">🏫</text>
+          <view class="feature-info">
+            <view class="feature-title">校园专属</view>
+            <view class="feature-desc">专为校园用户设计，交易更便捷</view>
+          </view>
+        </view>
+        <view class="feature-item">
+          <text class="feature-icon">💬</text>
+          <view class="feature-info">
+            <view class="feature-title">即时沟通</view>
+            <view class="feature-desc">买卖双方可直接沟通，无中间环节</view>
+          </view>
+        </view>
+        <view class="feature-item">
+          <text class="feature-icon">⭐</text>
+          <view class="feature-info">
+            <view class="feature-title">信用评价</view>
+            <view class="feature-desc">用户互评，打造诚信交易环境</view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="section">
+      <view class="section-title">联系我们</view>
+      <view class="section-content">
+        <view class="contact-item">
+          <text class="contact-icon">📧</text>
+          <text class="contact-text">邮箱：support@campus-trade.com</text>
+        </view>
+        <view class="contact-item">
+          <text class="contact-icon">📱</text>
+          <text class="contact-text">微信：campus_trade</text>
+        </view>
+        <view class="contact-item">
+          <text class="contact-icon">📞</text>
+          <text class="contact-text">电话：123-4567-8910</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="section">
+      <view class="section-title">开发团队</view>
+      <view class="section-content">
+        <text>本平台由信息学部软件工程专业学生团队开发，指导老师：张三教授。</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="footer">
+    <view class="copyright">© 2023 校园二手交易平台 版权所有</view>
+    <view class="links">
+      <navigator url="/pages/agreement/agreement" class="link">用户协议</navigator>
+      <text class="divider">|</text>
+      <navigator url="/pages/privacy/privacy" class="link">隐私政策</navigator>
+    </view>
+  </view>
+</view> 

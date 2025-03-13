@@ -1,0 +1,64 @@
+<!-- pages/login/login.wxml -->
+<view class="container">
+  <view class="login-header">
+    <image class="logo" src="/images/message.png" mode="aspectFit"></image>
+    <view class="title">校园二手交易平台</view>
+    <view class="subtitle">登录后体验更多功能</view>
+  </view>
+  
+  <view class="login-content">
+    <view class="login-tips">
+      <view class="tips-title">登录后即可</view>
+      <view class="tips-list">
+        <view class="tips-item">
+          <text class="tips-icon">🛒</text>
+          <text class="tips-text">发布二手商品</text>
+        </view>
+        <view class="tips-item">
+          <text class="tips-icon">💬</text>
+          <text class="tips-text">与卖家沟通</text>
+        </view>
+        <view class="tips-item">
+          <text class="tips-icon">❤️</text>
+          <text class="tips-text">收藏心仪商品</text>
+        </view>
+        <view class="tips-item">
+          <text class="tips-icon">🔔</text>
+          <text class="tips-text">接收交易通知</text>
+        </view>
+      </view>
+    </view>
+    
+    <view class="login-buttons">
+      <button 
+        class="login-btn wechat-btn" 
+        wx:if="{{canIUseGetUserProfile}}"
+        bindtap="getUserProfile"
+        loading="{{isLoading}}"
+        disabled="{{isLoading}}">
+        <text class="btn-icon">🔐</text>
+        <text class="btn-text">微信一键登录</text>
+      </button>
+      
+      <button 
+        class="login-btn wechat-btn" 
+        wx:else
+        open-type="getUserInfo" 
+        bindgetuserinfo="getUserInfo"
+        loading="{{isLoading}}"
+        disabled="{{isLoading}}">
+        <text class="btn-icon">🔐</text>
+        <text class="btn-text">微信一键登录</text>
+      </button>
+      
+      <button class="login-btn cancel-btn" bindtap="cancelLogin">暂不登录</button>
+    </view>
+  </view>
+  
+  <view class="login-footer">
+    <text class="agreement-text">登录即代表您同意</text>
+    <navigator url="/pages/agreement/agreement" class="agreement-link">《用户协议》</navigator>
+    <text class="agreement-text">和</text>
+    <navigator url="/pages/privacy/privacy" class="agreement-link">《隐私政策》</navigator>
+  </view>
+</view> 

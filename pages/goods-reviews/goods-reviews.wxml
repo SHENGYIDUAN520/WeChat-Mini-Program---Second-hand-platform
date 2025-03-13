@@ -1,0 +1,109 @@
+<!-- pages/goods-reviews/goods-reviews.wxml -->
+<view class="container">
+  <!-- 评分统计 -->
+  <view class="rating-stats" wx:if="{{stats.total > 0}}">
+    <view class="rating-summary">
+      <view class="rating-average">{{stats.avgRating.toFixed(1)}}</view>
+      <view class="rating-stars">
+        <text class="star {{stats.avgRating >= 1 ? 'active' : ''}}">★</text>
+        <text class="star {{stats.avgRating >= 2 ? 'active' : ''}}">★</text>
+        <text class="star {{stats.avgRating >= 3 ? 'active' : ''}}">★</text>
+        <text class="star {{stats.avgRating >= 4 ? 'active' : ''}}">★</text>
+        <text class="star {{stats.avgRating >= 5 ? 'active' : ''}}">★</text>
+      </view>
+      <view class="rating-count">共{{stats.total}}条评价</view>
+    </view>
+    
+    <view class="rating-distribution">
+      <view class="rating-bar">
+        <view class="rating-label">5星</view>
+        <view class="rating-progress">
+          <view class="rating-progress-inner" style="width: {{stats.total > 0 ? (stats.ratingDistribution[5] / stats.total * 100) : 0}}%"></view>
+        </view>
+        <view class="rating-percent">{{stats.total > 0 ? Math.round(stats.ratingDistribution[5] / stats.total * 100) : 0}}%</view>
+      </view>
+      <view class="rating-bar">
+        <view class="rating-label">4星</view>
+        <view class="rating-progress">
+          <view class="rating-progress-inner" style="width: {{stats.total > 0 ? (stats.ratingDistribution[4] / stats.total * 100) : 0}}%"></view>
+        </view>
+        <view class="rating-percent">{{stats.total > 0 ? Math.round(stats.ratingDistribution[4] / stats.total * 100) : 0}}%</view>
+      </view>
+      <view class="rating-bar">
+        <view class="rating-label">3星</view>
+        <view class="rating-progress">
+          <view class="rating-progress-inner" style="width: {{stats.total > 0 ? (stats.ratingDistribution[3] / stats.total * 100) : 0}}%"></view>
+        </view>
+        <view class="rating-percent">{{stats.total > 0 ? Math.round(stats.ratingDistribution[3] / stats.total * 100) : 0}}%</view>
+      </view>
+      <view class="rating-bar">
+        <view class="rating-label">2星</view>
+        <view class="rating-progress">
+          <view class="rating-progress-inner" style="width: {{stats.total > 0 ? (stats.ratingDistribution[2] / stats.total * 100) : 0}}%"></view>
+        </view>
+        <view class="rating-percent">{{stats.total > 0 ? Math.round(stats.ratingDistribution[2] / stats.total * 100) : 0}}%</view>
+      </view>
+      <view class="rating-bar">
+        <view class="rating-label">1星</view>
+        <view class="rating-progress">
+          <view class="rating-progress-inner" style="width: {{stats.total > 0 ? (stats.ratingDistribution[1] / stats.total * 100) : 0}}%"></view>
+        </view>
+        <view class="rating-percent">{{stats.total > 0 ? Math.round(stats.ratingDistribution[1] / stats.total * 100) : 0}}%</view>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 评价列表 -->
+  <view class="review-list">
+    <!-- 加载中 -->
+    <view class="loading-container" wx:if="{{loading && page === 1}}">
+      <view class="loading">
+        <view class="loading-spinner"></view>
+        <view class="loading-text">加载中...</view>
+      </view>
+    </view>
+    
+    <!-- 空状态 -->
+    <view class="empty-container" wx:if="{{!loading && reviews.length === 0}}">
+      <image class="empty-icon" src="/images/empty-state.png" mode="aspectFit"></image>
+      <view class="empty-text">暂无评价</view>
+    </view>
+    
+    <!-- 评价项 -->
+    <block wx:for="{{reviews}}" wx:key="_id">
+      <view class="review-item">
+        <view class="review-header">
+          <image class="reviewer-avatar" src="{{item.reviewer.avatarUrl || '/images/default-avatar.png'}}" mode="aspectFill" bindtap="viewUserReviews" data-userid="{{item.reviewerId}}" data-username="{{item.reviewer.nickName || '未知用户'}}"></image>
+          <view class="reviewer-info">
+            <view class="reviewer-name" bindtap="viewUserReviews" data-userid="{{item.reviewerId}}" data-username="{{item.reviewer.nickName || '未知用户'}}">{{item.reviewer.nickName || '未知用户'}}</view>
+            <view class="review-time">{{item.createTime}}</view>
+          </view>
+        </view>
+        <view class="review-rating">
+          <text class="star {{item.rating >= 1 ? 'active' : ''}}">★</text>
+          <text class="star {{item.rating >= 2 ? 'active' : ''}}">★</text>
+          <text class="star {{item.rating >= 3 ? 'active' : ''}}">★</text>
+          <text class="star {{item.rating >= 4 ? 'active' : ''}}">★</text>
+          <text class="star {{item.rating >= 5 ? 'active' : ''}}">★</text>
+          <text class="rating-text">
+            {{item.rating === 1 ? '很差' : (item.rating === 2 ? '较差' : (item.rating === 3 ? '一般' : (item.rating === 4 ? '很好' : '非常好')))}}
+          </text>
+        </view>
+        <view class="review-content">{{item.content}}</view>
+      </view>
+    </block>
+    
+    <!-- 加载更多 -->
+    <view class="loading-more" wx:if="{{loading && page > 1}}">
+      <view class="loading-spinner small"></view>
+      <view class="loading-text">加载更多...</view>
+    </view>
+    
+    <!-- 没有更多 -->
+    <view class="no-more" wx:if="{{!loading && !hasMore && reviews.length > 0}}">
+      <view class="no-more-line"></view>
+      <view class="no-more-text">没有更多评价了</view>
+      <view class="no-more-line"></view>
+    </view>
+  </view>
+</view> 

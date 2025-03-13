@@ -1,0 +1,97 @@
+<view class="container" wx:if="{{!loading}}">
+  <!-- 商品图片轮播 -->
+  <swiper class="goods-swiper" indicator-dots="{{true}}" autoplay="{{true}}" interval="3000" duration="500">
+    <block wx:for="{{goods.images}}" wx:key="*this">
+      <swiper-item>
+        <image src="{{item}}" class="slide-image" mode="aspectFill" bindtap="previewImage" data-src="{{item}}"/>
+      </swiper-item>
+    </block>
+  </swiper>
+
+  <!-- 商品信息 -->
+  <view class="goods-info">
+    <view class="goods-title">{{goods.title}}</view>
+    <view class="goods-price">¥ {{goods.price}}</view>
+    <view class="goods-meta">
+      <text class="goods-views">浏览 {{goods.views || 0}}</text>
+      <text class="goods-time">发布于 {{goods.createTime}}</text>
+    </view>
+    <view class="goods-status" wx:if="{{goods.status === 0}}">已下架</view>
+    <view class="goods-status" wx:if="{{goods.status === 2}}">已售出</view>
+  </view>
+
+  <!-- 商品描述 -->
+  <view class="goods-section">
+    <view class="section-title">商品描述</view>
+    <view class="goods-description">{{goods.description || '暂无描述'}}</view>
+  </view>
+
+  <!-- 卖家信息 -->
+  <view class="goods-section">
+    <view class="section-title">卖家信息</view>
+    <view class="seller-info">
+      <image class="seller-avatar" src="{{seller.avatarUrl || '/images/default-avatar.png'}}"></image>
+      <view class="seller-detail">
+        <view class="seller-name">{{seller.nickName}}</view>
+        <view class="seller-meta">{{seller.campus || '未知校区'}} · {{seller.contactInfo || '未填写联系方式'}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部操作栏 -->
+  <view class="footer-bar">
+    <!-- 收藏按钮 -->
+    <view class="action-btn favorite-btn {{isFavorite ? 'active' : ''}}" bindtap="toggleFavorite">
+      <view class="btn-icon">
+        <text class="iconfont {{isFavorite ? 'icon-star-filled' : 'icon-star'}}"></text>
+      </view>
+      <view class="btn-text">{{isFavorite ? '已收藏' : '收藏'}}</view>
+    </view>
+
+    <!-- 卖家操作 -->
+    <block wx:if="{{isOwner}}">
+      <view class="action-btn" bindtap="editGoods" wx:if="{{goods.status !== 2}}">
+        <view class="btn-icon">
+          <text class="iconfont icon-edit"></text>
+        </view>
+        <view class="btn-text">编辑</view>
+      </view>
+      
+      <view class="action-btn" bindtap="offShelfGoods" wx:if="{{goods.status === 1}}">
+        <view class="btn-icon">
+          <text class="iconfont icon-offline"></text>
+        </view>
+        <view class="btn-text">下架</view>
+      </view>
+      
+      <view class="action-btn" bindtap="relistGoods" wx:if="{{goods.status === 0}}">
+        <view class="btn-icon">
+          <text class="iconfont icon-online"></text>
+        </view>
+        <view class="btn-text">上架</view>
+      </view>
+    </block>
+    
+    <!-- 买家操作 -->
+    <block wx:else>
+      <view class="action-btn" bindtap="contactSeller" wx:if="{{goods.status === 1}}">
+        <view class="btn-icon">
+          <text class="iconfont icon-message"></text>
+        </view>
+        <view class="btn-text">联系卖家</view>
+      </view>
+      
+      <view class="primary-btn" bindtap="buyGoods" wx:if="{{goods.status === 1}}">立即购买</view>
+      <view class="disabled-btn" wx:if="{{goods.status === 0}}">已下架</view>
+      <view class="disabled-btn" wx:if="{{goods.status === 2}}">已售出</view>
+    </block>
+  </view>
+</view>
+
+<!-- 加载中 -->
+<view class="loading-container" wx:if="{{loading}}">
+  <view class="loading">
+    <view class="loading-spinner"></view>
+    <view class="loading-text">加载中...</view>
+  </view>
+</view>

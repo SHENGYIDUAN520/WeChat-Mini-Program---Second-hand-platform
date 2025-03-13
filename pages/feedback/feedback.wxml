@@ -1,0 +1,74 @@
+<!-- pages/feedback/feedback.wxml -->
+<view class="container">
+  <view class="header">
+    <view class="title">意见反馈</view>
+    <view class="subtitle">您的反馈是我们进步的动力</view>
+  </view>
+
+  <view class="form-container">
+    <!-- 反馈类型 -->
+    <view class="form-item">
+      <view class="form-label">反馈类型</view>
+      <view class="type-selector">
+        <view class="type-item {{feedbackType === 'bug' ? 'active' : ''}}" bindtap="selectType" data-type="bug">
+          <text class="type-icon">🐞</text>
+          <text class="type-name">功能异常</text>
+        </view>
+        <view class="type-item {{feedbackType === 'suggestion' ? 'active' : ''}}" bindtap="selectType" data-type="suggestion">
+          <text class="type-icon">💡</text>
+          <text class="type-name">功能建议</text>
+        </view>
+        <view class="type-item {{feedbackType === 'complaint' ? 'active' : ''}}" bindtap="selectType" data-type="complaint">
+          <text class="type-icon">⚠️</text>
+          <text class="type-name">投诉举报</text>
+        </view>
+        <view class="type-item {{feedbackType === 'other' ? 'active' : ''}}" bindtap="selectType" data-type="other">
+          <text class="type-icon">📝</text>
+          <text class="type-name">其他</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 反馈内容 -->
+    <view class="form-item">
+      <view class="form-label">反馈内容</view>
+      <textarea class="feedback-content" placeholder="请详细描述您遇到的问题或建议..." bindinput="inputContent" value="{{content}}" maxlength="500"></textarea>
+      <view class="word-count">{{content.length}}/500</view>
+    </view>
+
+    <!-- 联系方式 -->
+    <view class="form-item">
+      <view class="form-label">联系方式 <text class="optional">(选填)</text></view>
+      <input class="contact-input" placeholder="请留下您的手机号或微信号，方便我们联系您" bindinput="inputContact" value="{{contact}}"></input>
+    </view>
+
+    <!-- 上传图片 -->
+    <view class="form-item">
+      <view class="form-label">上传图片 <text class="optional">(选填，最多3张)</text></view>
+      <view class="image-uploader">
+        <view class="image-list">
+          <view class="image-item" wx:for="{{images}}" wx:key="index">
+            <image class="uploaded-image" src="{{item}}" mode="aspectFill" bindtap="previewImage" data-index="{{index}}"></image>
+            <view class="delete-btn" catchtap="deleteImage" data-index="{{index}}">×</view>
+          </view>
+          <view class="upload-btn" bindtap="chooseImage" wx:if="{{images.length < 3}}">
+            <text class="upload-icon">+</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 提交按钮 -->
+  <view class="submit-btn {{canSubmit ? '' : 'disabled'}}" bindtap="submitFeedback">提交反馈</view>
+
+  <!-- 提交成功提示 -->
+  <view class="success-modal" wx:if="{{showSuccess}}">
+    <view class="success-content">
+      <icon type="success" size="64" color="#FB7299"></icon>
+      <view class="success-title">提交成功</view>
+      <view class="success-message">感谢您的反馈，我们会尽快处理</view>
+      <view class="success-btn" bindtap="backToProfile">返回</view>
+    </view>
+  </view>
+</view> 

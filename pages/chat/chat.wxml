@@ -1,0 +1,46 @@
+<view class="container">
+  <!-- 商品信息 -->
+  <view class="goods-card" wx:if="{{goods}}" bindtap="viewGoodsDetail">
+    <image class="goods-image" src="{{goods.images[0]}}" mode="aspectFill"></image>
+    <view class="goods-info">
+      <view class="goods-title">{{goods.title}}</view>
+      <view class="goods-price">¥{{goods.price}}</view>
+    </view>
+    <view class="goods-arrow">
+      <text class="iconfont icon-right"></text>
+    </view>
+  </view>
+
+  <!-- 聊天内容 -->
+  <scroll-view class="chat-list" scroll-y="true" scroll-into-view="{{scrollIntoView}}" scroll-with-animation="true">
+    <!-- 加载中 -->
+    <view class="loading-container" wx:if="{{loading}}">
+      <view class="loading">
+        <view class="loading-spinner"></view>
+        <view class="loading-text">加载中...</view>
+      </view>
+    </view>
+    
+    <!-- 消息列表 -->
+    <block wx:if="{{!loading && messages.length > 0}}">
+      <view wx:for="{{messages}}" wx:key="_id" id="msg-{{item._id}}" class="message-item {{item.fromId === userInfo.openid ? 'self' : 'other'}}">
+        <image class="avatar" src="{{item.fromId === userInfo.openid ? userInfo.avatarUrl : targetUser.avatarUrl || '/images/default-avatar.png'}}" mode="aspectFill"></image>
+        <view class="message-content">
+          <view class="message-text">{{item.content}}</view>
+          <view class="message-time">{{item.formattedTime || ''}}</view>
+        </view>
+      </view>
+    </block>
+    
+    <!-- 无消息提示 -->
+    <view class="empty-tip" wx:if="{{!loading && messages.length === 0}}">
+      <view class="empty-text">暂无消息，开始聊天吧</view>
+    </view>
+  </scroll-view>
+
+  <!-- 输入框 -->
+  <view class="input-area">
+    <input class="message-input" placeholder="输入消息..." value="{{inputContent}}" bindinput="onInputChange" confirm-type="send" bindconfirm="sendMessage"></input>
+    <view class="send-btn" bindtap="sendMessage">发送</view>
+  </view>
+</view> 

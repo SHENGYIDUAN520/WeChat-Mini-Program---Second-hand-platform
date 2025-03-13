@@ -1,0 +1,82 @@
+<!-- pages/settings/settings.wxml -->
+<view class="settings-container">
+  <!-- 顶部导航栏 -->
+  <view class="nav-bar">
+    <view class="nav-back" bindtap="navigateBack">
+      <text class="iconfont icon-back">←</text>
+    </view>
+    <view class="nav-title">设置</view>
+    <view class="nav-right"></view>
+  </view>
+
+  <!-- 设置列表 -->
+  <view class="settings-list">
+    <!-- 账号安全 -->
+    <view class="settings-group">
+      <view class="group-title">账号安全</view>
+      <view class="group-items">
+        <navigator url="/pages/account-security/account-security" class="setting-item">
+          <view class="item-name">账号安全</view>
+          <view class="item-arrow">></view>
+        </navigator>
+      </view>
+    </view>
+
+    <!-- 应用设置 -->
+    <view class="settings-group">
+      <view class="group-title">应用设置</view>
+      <view class="group-items">
+        <view class="setting-item">
+          <view class="item-name">消息通知</view>
+          <switch checked="{{notificationEnabled}}" color="#FB7299" bindchange="toggleNotification"></switch>
+        </view>
+        <navigator url="/pages/theme/theme" class="setting-item">
+          <view class="item-name">主题设置</view>
+          <view class="item-value">{{currentTheme}}</view>
+          <view class="item-arrow">></view>
+        </navigator>
+        <navigator url="/pages/language/language" class="setting-item">
+          <view class="item-name">语言设置</view>
+          <view class="item-value">{{currentLanguage}}</view>
+          <view class="item-arrow">></view>
+        </navigator>
+        <view class="setting-item" bindtap="clearCache">
+          <view class="item-name">清除缓存</view>
+          <view class="item-value">{{cacheSize}}</view>
+          <view class="item-arrow">></view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 关于我们 -->
+    <view class="settings-group">
+      <view class="group-title">关于我们</view>
+      <view class="group-items">
+        <navigator url="/pages/about/about" class="setting-item">
+          <view class="item-name">关于应用</view>
+          <view class="item-arrow">></view>
+        </navigator>
+        <navigator url="/pages/feedback/feedback" class="setting-item">
+          <view class="item-name">意见反馈</view>
+          <view class="item-arrow">></view>
+        </navigator>
+        <navigator url="/pages/privacy/privacy" class="setting-item">
+          <view class="item-name">隐私政策</view>
+          <view class="item-arrow">></view>
+        </navigator>
+        <navigator url="/pages/agreement/agreement" class="setting-item">
+          <view class="item-name">用户协议</view>
+          <view class="item-arrow">></view>
+        </navigator>
+      </view>
+    </view>
+  </view>
+
+  <!-- 退出登录 -->
+  <view class="logout-btn" bindtap="logout" wx:if="{{isLogin}}">退出登录</view>
+
+  <!-- 版本信息 -->
+  <view class="version-info">
+    <text>版本号: 1.0.0</text>
+  </view>
+</view> 

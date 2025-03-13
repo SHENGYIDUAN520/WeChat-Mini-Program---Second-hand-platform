@@ -1,0 +1,71 @@
+<!-- pages/user-reviews/user-reviews.wxml -->
+<view class="container">
+  <!-- 用户信息 -->
+  <view class="user-info">
+    <view class="user-name">{{userName}}的评价</view>
+  </view>
+  
+  <!-- 评价类型切换 -->
+  <view class="tab-header">
+    <view class="tab-item {{reviewType === 'seller' ? 'active' : ''}}" bindtap="switchType" data-type="seller">
+      <text>卖家评价</text>
+    </view>
+    <view class="tab-item {{reviewType === 'buyer' ? 'active' : ''}}" bindtap="switchType" data-type="buyer">
+      <text>买家评价</text>
+    </view>
+  </view>
+  
+  <!-- 评价列表 -->
+  <view class="review-list">
+    <!-- 加载中 -->
+    <view class="loading-container" wx:if="{{loading && page === 1}}">
+      <view class="loading">
+        <view class="loading-spinner"></view>
+        <view class="loading-text">加载中...</view>
+      </view>
+    </view>
+    
+    <!-- 空状态 -->
+    <view class="empty-container" wx:if="{{!loading && reviews.length === 0}}">
+      <image class="empty-icon" src="/images/empty-state.png" mode="aspectFit"></image>
+      <view class="empty-text">暂无评价</view>
+    </view>
+    
+    <!-- 评价项 -->
+    <block wx:for="{{reviews}}" wx:key="_id">
+      <view class="review-item">
+        <view class="review-header">
+          <image class="reviewer-avatar" src="{{item.reviewer.avatarUrl || '/images/default-avatar.png'}}" mode="aspectFill"></image>
+          <view class="reviewer-info">
+            <view class="reviewer-name">{{item.reviewer.nickName || '未知用户'}}</view>
+            <view class="review-time">{{item.createTime}}</view>
+          </view>
+        </view>
+        <view class="review-rating">
+          <text class="star {{item.rating >= 1 ? 'active' : ''}}">★</text>
+          <text class="star {{item.rating >= 2 ? 'active' : ''}}">★</text>
+          <text class="star {{item.rating >= 3 ? 'active' : ''}}">★</text>
+          <text class="star {{item.rating >= 4 ? 'active' : ''}}">★</text>
+          <text class="star {{item.rating >= 5 ? 'active' : ''}}">★</text>
+          <text class="rating-text">
+            {{item.rating === 1 ? '很差' : (item.rating === 2 ? '较差' : (item.rating === 3 ? '一般' : (item.rating === 4 ? '很好' : '非常好')))}}
+          </text>
+        </view>
+        <view class="review-content">{{item.content}}</view>
+      </view>
+    </block>
+    
+    <!-- 加载更多 -->
+    <view class="loading-more" wx:if="{{loading && page > 1}}">
+      <view class="loading-spinner small"></view>
+      <view class="loading-text">加载更多...</view>
+    </view>
+    
+    <!-- 没有更多 -->
+    <view class="no-more" wx:if="{{!loading && !hasMore && reviews.length > 0}}">
+      <view class="no-more-line"></view>
+      <view class="no-more-text">没有更多评价了</view>
+      <view class="no-more-line"></view>
+    </view>
+  </view>
+</view> 

@@ -1,0 +1,37 @@
+云函数依赖手动安装指南
+====================
+
+由于PowerShell执行策略限制，你可以按照以下步骤手动安装云函数依赖：
+
+1. 打开命令提示符（cmd.exe）而不是PowerShell
+   - 按Win+R，输入cmd，按回车
+
+2. 依次进入每个云函数目录并安装依赖：
+
+   cd 你的项目路径\cloudfunctions\getReviews
+   npm install
+
+   cd 你的项目路径\cloudfunctions\submitReview
+   npm install
+
+   cd 你的项目路径\cloudfunctions\checkReview
+   npm install
+
+   cd 你的项目路径\cloudfunctions\getMessages
+   npm install
+
+   cd 你的项目路径\cloudfunctions\getMessageList
+   npm install
+
+   cd 你的项目路径\cloudfunctions\sendMessage
+   npm install
+
+   cd 你的项目路径\cloudfunctions\markMessagesAsRead
+   npm install
+
+3. 安装完成后，在微信开发者工具中右键点击每个云函数，选择"上传并部署：云端安装依赖"
+
+注意：如果你想永久解决这个问题，可以以管理员身份运行PowerShell，然后执行以下命令：
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned
+
+这将允许运行本地脚本，但仍然需要对从互联网下载的脚本进行签名。 

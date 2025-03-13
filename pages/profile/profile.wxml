@@ -1,0 +1,149 @@
+<view class="profile-container">
+  <!-- 用户信息区域 -->
+  <view class="user-info-section">
+    <view class="user-info" wx:if="{{isLogin}}">
+      <image class="avatar" src="{{userInfo.avatarUrl || '/images/default-avatar.png'}}"></image>
+      <view class="info">
+        <view class="nickname">{{userInfo.nickName || '微信用户'}}</view>
+        <view class="campus" wx:if="{{userInfo.campus}}">{{userInfo.campus}}</view>
+      </view>
+      <view class="edit-profile" bindtap="navigateTo" data-url="/pages/profile-edit/profile-edit">
+        <text class="edit-icon">✏️</text>
+      </view>
+    </view>
+    <view class="user-info" wx:else>
+      <image class="avatar" src="/images/default-avatar.png"></image>
+      <view class="info">
+        <view class="nickname">未登录</view>
+        <view class="login-btn" bindtap="login">点击登录</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 用户评分信息 -->
+  <view class="rating-info" wx:if="{{isLogin}}">
+    <view class="rating-item" bindtap="viewReviews" data-type="buyer">
+      <view class="rating-title">买家评分</view>
+      <view class="rating-stars">
+        <text class="star {{userInfo.buyerRating >= 1 ? 'active' : ''}}">★</text>
+        <text class="star {{userInfo.buyerRating >= 2 ? 'active' : ''}}">★</text>
+        <text class="star {{userInfo.buyerRating >= 3 ? 'active' : ''}}">★</text>
+        <text class="star {{userInfo.buyerRating >= 4 ? 'active' : ''}}">★</text>
+        <text class="star {{userInfo.buyerRating >= 5 ? 'active' : ''}}">★</text>
+        <text class="rating-value">{{userInfo.buyerRating ? userInfo.buyerRating.toFixed(1) : '暂无'}} ({{userInfo.buyerReviewCount || 0}}条评价)</text>
+      </view>
+      <view class="view-more">查看详情 ></view>
+    </view>
+    <view class="rating-item" bindtap="viewReviews" data-type="seller">
+      <view class="rating-title">卖家评分</view>
+      <view class="rating-stars">
+        <text class="star {{userInfo.sellerRating >= 1 ? 'active' : ''}}">★</text>
+        <text class="star {{userInfo.sellerRating >= 2 ? 'active' : ''}}">★</text>
+        <text class="star {{userInfo.sellerRating >= 3 ? 'active' : ''}}">★</text>
+        <text class="star {{userInfo.sellerRating >= 4 ? 'active' : ''}}">★</text>
+        <text class="star {{userInfo.sellerRating >= 5 ? 'active' : ''}}">★</text>
+        <text class="rating-value">{{userInfo.sellerRating ? userInfo.sellerRating.toFixed(1) : '暂无'}} ({{userInfo.sellerReviewCount || 0}}条评价)</text>
+      </view>
+      <view class="view-more">查看详情 ></view>
+    </view>
+  </view>
+
+  <!-- 功能菜单 -->
+  <view class="menu-section">
+    <view class="menu-title">我的交易</view>
+    <view class="menu-list">
+      <navigator url="/pages/my-goods/my-goods" class="menu-item">
+        <view class="menu-icon">
+          <text class="iconfont icon-goods">📦</text>
+        </view>
+        <view class="menu-name">我的商品</view>
+        <view class="menu-arrow">
+          <text class="iconfont icon-right">></text>
+        </view>
+      </navigator>
+      <navigator url="/pages/my-orders/my-orders" class="menu-item">
+        <view class="menu-icon">
+          <text class="iconfont icon-order">📝</text>
+        </view>
+        <view class="menu-name">我的订单</view>
+        <view class="menu-arrow">
+          <text class="iconfont icon-right">></text>
+        </view>
+      </navigator>
+      <navigator url="/pages/favorites/favorites" class="menu-item">
+        <view class="menu-icon">
+          <text class="iconfont icon-favorite">❤️</text>
+        </view>
+        <view class="menu-name">我的收藏</view>
+        <view class="menu-arrow">
+          <text class="iconfont icon-right">></text>
+        </view>
+      </navigator>
+    </view>
+  </view>
+
+  <view class="menu-section">
+    <view class="menu-title">消息中心</view>
+    <view class="menu-list">
+      <view class="menu-item" bindtap="navigateTo" data-url="/pages/message-list/message-list">
+        <view class="menu-icon">
+          <text class="iconfont icon-message">💬</text>
+        </view>
+        <view class="menu-name">我的消息</view>
+        <view class="menu-badge" wx:if="{{unreadCount > 0}}">{{unreadCount}}</view>
+        <view class="menu-arrow">
+          <text class="iconfont icon-right">></text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="menu-section">
+    <view class="menu-title">设置</view>
+    <view class="menu-list">
+      <view class="menu-item" bindtap="navigateTo" data-url="/pages/settings/settings">
+        <view class="menu-icon">
+          <text class="iconfont icon-settings">⚙️</text>
+        </view>
+        <view class="menu-name">个人设置</view>
+        <view class="menu-arrow">
+          <text class="iconfont icon-right">></text>
+        </view>
+      </view>
+      
+      <view class="menu-item" bindtap="navigateTo" data-url="/pages/feedback/feedback">
+        <view class="menu-icon">
+          <text class="iconfont icon-feedback">📢</text>
+        </view>
+        <view class="menu-name">意见反馈</view>
+        <view class="menu-arrow">
+          <text class="iconfont icon-right">></text>
+        </view>
+      </view>
+      
+      <view class="menu-item" bindtap="navigateTo" data-url="/pages/about/about">
+        <view class="menu-icon">
+          <text class="iconfont icon-info">ℹ️</text>
+        </view>
+        <view class="menu-name">关于我们</view>
+        <view class="menu-arrow">
+          <text class="iconfont icon-right">></text>
+        </view>
+      </view>
+      
+      <!-- 管理员入口 -->
+      <view class="menu-item" bindtap="navigateTo" data-url="/pages/admin/admin">
+        <view class="menu-icon">
+          <text class="iconfont icon-admin">👑</text>
+        </view>
+        <view class="menu-name">管理员控制台</view>
+        <view class="menu-arrow">
+          <text class="iconfont icon-right">></text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 退出登录 -->
+  <view class="logout-btn" bindtap="logout" wx:if="{{isLogin}}">退出登录</view>
+</view> 

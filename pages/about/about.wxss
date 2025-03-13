@@ -1,0 +1,160 @@
+/* pages/about/about.wxss */
+page {
+  background-color: #f7f7f7;
+}
+
+.container {
+  padding: 30rpx;
+}
+
+/* 头部 */
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40rpx 0;
+  margin-bottom: 30rpx;
+  background-color: #fff;
+  border-radius: 12rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
+}
+
+.logo {
+  width: 160rpx;
+  height: 160rpx;
+  margin-bottom: 20rpx;
+}
+
+.title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10rpx;
+}
+
+.version {
+  font-size: 24rpx;
+  color: #999;
+}
+
+/* 内容区域 */
+.content {
+  margin-bottom: 30rpx;
+}
+
+.section {
+  background-color: #fff;
+  border-radius: 12rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+  position: relative;
+  padding-left: 20rpx;
+}
+
+.section-title::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8rpx;
+  height: 32rpx;
+  background-color: #FB7299;
+  border-radius: 4rpx;
+}
+
+.section-content {
+  font-size: 28rpx;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* 特色功能 */
+.feature-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30rpx;
+}
+
+.feature-item:last-child {
+  margin-bottom: 0;
+}
+
+.feature-icon {
+  font-size: 40rpx;
+  margin-right: 20rpx;
+}
+
+.feature-info {
+  flex: 1;
+}
+
+.feature-title {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 6rpx;
+}
+
+.feature-desc {
+  font-size: 24rpx;
+  color: #999;
+}
+
+/* 联系方式 */
+.contact-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.contact-item:last-child {
+  margin-bottom: 0;
+}
+
+.contact-icon {
+  font-size: 32rpx;
+  margin-right: 20rpx;
+}
+
+.contact-text {
+  font-size: 28rpx;
+  color: #666;
+}
+
+/* 页脚 */
+.footer {
+  text-align: center;
+  padding: 30rpx 0;
+}
+
+.copyright {
+  font-size: 24rpx;
+  color: #999;
+  margin-bottom: 10rpx;
+}
+
+.links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.link {
+  font-size: 24rpx;
+  color: #FB7299;
+}
+
+.divider {
+  margin: 0 10rpx;
+  color: #ddd;
+  font-size: 24rpx;
+} 

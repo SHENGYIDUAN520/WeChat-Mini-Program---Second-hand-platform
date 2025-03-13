@@ -1,0 +1,49 @@
+<view class="container">
+  <!-- 未登录提示 -->
+  <view class="login-tip" wx:if="{{!isLogin}}">
+    <image class="login-icon" src="/images/message.png" mode="aspectFit"></image>
+    <text class="login-text">登录后查看消息</text>
+    <button class="login-btn" bindtap="checkLogin">去登录</button>
+  </view>
+
+  <!-- 消息列表 -->
+  <view class="message-list" wx:if="{{!loading && messageList.length > 0 && isLogin}}">
+    <view class="message-item" 
+          wx:for="{{messageList}}" 
+          wx:key="_id" 
+          bindtap="goToChat" 
+          data-from-id="{{item.fromId}}" 
+          data-goods-id="{{item.goodsId}}">
+      <view class="avatar">
+        <image src="{{item.fromUser.avatarUrl || '/images/default-avatar.png'}}" mode="aspectFill"></image>
+      </view>
+      <view class="content">
+        <view class="header">
+          <text class="nickname">{{item.fromUser.nickName || '未知用户'}}</text>
+          <text class="time">{{item.createTime}}</text>
+        </view>
+        <view class="message">
+          <text>{{item.content}}</text>
+        </view>
+        <view class="goods-info" wx:if="{{item.goods && item.goods.title}}">
+          <text class="goods-title">商品：{{item.goods.title}}</text>
+        </view>
+      </view>
+      <view class="unread" wx:if="{{!item.isRead}}"></view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty" wx:if="{{!loading && messageList.length === 0 && isLogin}}">
+    <image src="/images/empty-message.png" mode="aspectFit"></image>
+    <text>暂无消息</text>
+    <text class="empty-tip">你还没有收到任何消息</text>
+  </view>
+
+  <!-- 加载中 -->
+  <view class="loading" wx:if="{{loading && isLogin}}">
+    <view class="loading-dot"></view>
+    <view class="loading-dot"></view>
+    <view class="loading-dot"></view>
+  </view>
+</view> 

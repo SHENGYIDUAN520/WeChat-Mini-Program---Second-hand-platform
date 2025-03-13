@@ -1,0 +1,121 @@
+<!-- pages/search/search.wxml -->
+<view class="container">
+  <!-- 搜索头部 -->
+  <view class="search-header">
+    <view class="back-btn" bindtap="goBack">
+      <text class="iconfont icon-back"></text>
+    </view>
+    <view class="search-bar">
+      <input class="search-input" placeholder="搜索二次元周边" confirm-type="search" value="{{keyword}}" bindinput="onInputChange" bindconfirm="onSearch" focus="{{true}}" />
+      <text class="iconfont icon-search"></text>
+    </view>
+    <view class="search-btn" bindtap="onSearch">搜索</view>
+  </view>
+
+  <!-- 历史搜索 -->
+  <view class="search-history" wx:if="{{showHistory && historyKeywords.length > 0}}">
+    <view class="section-header">
+      <view class="section-title">历史搜索</view>
+      <view class="clear-btn" bindtap="clearHistory">清空</view>
+    </view>
+    <view class="tag-list">
+      <view class="tag animate-fade-in" 
+            wx:for="{{historyKeywords}}" 
+            wx:key="*this" 
+            bindtap="onTagTap" 
+            data-keyword="{{item}}"
+            style="animation-delay: {{index * 0.05}}s">
+        {{item}}
+      </view>
+    </view>
+  </view>
+
+  <!-- 热门搜索 -->
+  <view class="hot-search" wx:if="{{showHot}}">
+    <view class="section-header">
+      <view class="section-title">热门搜索</view>
+    </view>
+    <view class="tag-list">
+      <view class="tag hot-tag animate-fade-in" 
+            wx:for="{{hotKeywords}}" 
+            wx:key="*this" 
+            bindtap="onTagTap" 
+            data-keyword="{{item}}"
+            style="animation-delay: {{index * 0.05}}s">
+        {{item}}
+      </view>
+    </view>
+  </view>
+
+  <!-- 分类导航 -->
+  <view class="category-section" wx:if="{{showHot}}">
+    <view class="section-header">
+      <view class="section-title">分类导航</view>
+    </view>
+    <view class="category-list">
+      <view class="category-item animate-fade-in" 
+            wx:for="{{categories}}" 
+            wx:key="id" 
+            bindtap="onCategoryTap" 
+            data-id="{{item.id}}" 
+            data-name="{{item.name}}"
+            style="animation-delay: {{index * 0.05}}s">
+        <view class="category-icon">
+          <image src="{{item.icon}}" mode="aspectFit"></image>
+        </view>
+        <view class="category-name">{{item.name}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 搜索结果 -->
+  <view class="search-results" wx:if="{{showResults}}">
+    <view class="result-header">
+      <view class="result-count">找到 {{searchResults.length}} 个相关商品</view>
+      <view class="result-sort">
+        <text class="sort-item active">综合</text>
+        <text class="sort-item">最新</text>
+        <text class="sort-item">价格</text>
+      </view>
+    </view>
+    
+    <view class="goods-list" wx:if="{{searchResults.length > 0}}">
+      <view class="goods-item animate-fade-in" 
+            wx:for="{{searchResults}}" 
+            wx:key="id" 
+            bindtap="onGoodsTap" 
+            data-id="{{item.id}}"
+            style="animation-delay: {{index * 0.05}}s">
+        <view class="goods-image">
+          <image src="{{item.image}}" mode="aspectFill"></image>
+          <view class="goods-tag" wx:if="{{item.isNew}}">新品</view>
+          <view class="goods-tag hot" wx:if="{{item.isHot}}">热门</view>
+        </view>
+        <view class="goods-info">
+          <view class="goods-title">{{item.title}}</view>
+          <view class="goods-price">{{item.price}}</view>
+          <view class="goods-meta">
+            <text>{{item.seller.campus || item.campus}}</text>
+            <text>{{item.viewCount || item.views}}浏览</text>
+          </view>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 空状态 -->
+    <view class="empty-state" wx:if="{{searchResults.length === 0 && !loading}}">
+      <image class="empty-image" src="/images/empty-search.png" mode="aspectFit"></image>
+      <view class="empty-text">没有找到相关商品</view>
+      <view class="empty-tips">换个关键词试试吧~</view>
+    </view>
+    
+    <!-- 加载更多 -->
+    <view class="loading" wx:if="{{loading}}">
+      <view class="loading-dot"></view>
+      <view class="loading-dot"></view>
+      <view class="loading-dot"></view>
+    </view>
+    <view class="load-more" wx:if="{{!loading && hasMore && searchResults.length > 0}}" bindtap="loadMore">点击加载更多</view>
+    <view class="no-more" wx:if="{{!loading && !hasMore && searchResults.length > 0}}">没有更多了~</view>
+  </view>
+</view> 

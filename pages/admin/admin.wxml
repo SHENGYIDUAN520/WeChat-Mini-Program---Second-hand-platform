@@ -1,0 +1,242 @@
+<view class="container">
+  <!-- 非管理员提示 -->
+  <view class="no-permission" wx:if="{{!isAdmin && !loading}}">
+    <image class="no-permission-icon" src="/images/no-permission.png" mode="aspectFit"></image>
+    <view class="no-permission-text">您没有管理员权限</view>
+    <navigator url="/pages/index/index" open-type="switchTab" class="back-home">返回首页</navigator>
+  </view>
+
+  <!-- 管理员界面 -->
+  <block wx:if="{{isAdmin}}">
+    <!-- 顶部标签页 -->
+    <view class="tabs">
+      <view 
+        wx:for="{{tabs}}" 
+        wx:key="*this" 
+        class="tab {{activeTab === index ? 'active' : ''}}"
+        bindtap="switchTab"
+        data-index="{{index}}">
+        {{item}}
+      </view>
+    </view>
+
+    <!-- 商品管理 -->
+    <view class="tab-content" wx:if="{{activeTab === 0}}">
+      <!-- 搜索栏 -->
+      <view class="search-bar">
+        <view class="search-input-wrap">
+          <text class="iconfont icon-search"></text>
+          <input 
+            class="search-input" 
+            placeholder="搜索商品" 
+            value="{{searchKeyword}}"
+            bindinput="onSearchInput"
+            bindconfirm="doSearch"
+            confirm-type="search"
+          />
+        </view>
+        <view class="search-btn" bindtap="doSearch">搜索</view>
+      </view>
+
+      <!-- 状态筛选 -->
+      <view class="filter-bar">
+        <view 
+          class="filter-item {{goodsStatus === -1 ? 'active' : ''}}" 
+          bindtap="changeGoodsStatus" 
+          data-status="-1">
+          全部
+        </view>
+        <view 
+          class="filter-item {{goodsStatus === 1 ? 'active' : ''}}" 
+          bindtap="changeGoodsStatus" 
+          data-status="1">
+          在售
+        </view>
+        <view 
+          class="filter-item {{goodsStatus === 0 ? 'active' : ''}}" 
+          bindtap="changeGoodsStatus" 
+          data-status="0">
+          下架
+        </view>
+        <view 
+          class="filter-item {{goodsStatus === 2 ? 'active' : ''}}" 
+          bindtap="changeGoodsStatus" 
+          data-status="2">
+          已售出
+        </view>
+      </view>
+
+      <!-- 商品列表 -->
+      <view class="goods-list">
+        <view class="goods-item" wx:for="{{goodsList}}" wx:key="_id">
+          <view class="goods-card" bindtap="viewGoodsDetail" data-id="{{item._id}}">
+            <image class="goods-image" src="{{item.images[0]}}" mode="aspectFill" lazy-load></image>
+            <view class="goods-info">
+              <view class="goods-title">{{item.title}}</view>
+              <view class="goods-price">¥{{item.price}}</view>
+              <view class="goods-meta">
+                <text class="goods-time">{{item.createTime}}</text>
+                <text class="goods-status status-{{item.status}}">
+                  {{item.status === 0 ? '已下架' : (item.status === 1 ? '在售' : '已售出')}}
+                </text>
+              </view>
+            </view>
+          </view>
+          <view class="goods-actions">
+            <view class="action-btn view-btn" bindtap="viewGoodsDetail" data-id="{{item._id}}">查看</view>
+            <view class="action-btn put-on-btn" wx:if="{{item.status === 0}}" bindtap="putOnGoods" data-id="{{item._id}}" data-index="{{index}}">上架</view>
+            <view class="action-btn take-down-btn" wx:if="{{item.status === 1}}" bindtap="takeDownGoods" data-id="{{item._id}}" data-index="{{index}}">下架</view>
+            <view class="action-btn delete-btn" bindtap="deleteGoods" data-id="{{item._id}}" data-index="{{index}}">删除</view>
+          </view>
+        </view>
+
+        <!-- 加载更多 -->
+        <view class="load-more" wx:if="{{hasMoreGoods && !loading}}">
+          <text class="load-more-text">上拉加载更多</text>
+        </view>
+        <view class="load-more" wx:if="{{!hasMoreGoods && goodsList.length > 0}}">
+          <text class="load-more-text">没有更多了</text>
+        </view>
+        <view class="empty-list" wx:if="{{goodsList.length === 0 && !loading}}">
+          <image class="empty-icon" src="/images/empty-goods.png" mode="aspectFit"></image>
+          <view class="empty-text">暂无商品</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 用户管理 -->
+    <view class="tab-content" wx:if="{{activeTab === 1}}">
+      <!-- 搜索栏 -->
+      <view class="search-bar">
+        <view class="search-input-wrap">
+          <text class="iconfont icon-search"></text>
+          <input 
+            class="search-input" 
+            placeholder="搜索用户" 
+            value="{{searchKeyword}}"
+            bindinput="onSearchInput"
+            bindconfirm="doSearch"
+            confirm-type="search"
+          />
+        </view>
+        <view class="search-btn" bindtap="doSearch">搜索</view>
+      </view>
+
+      <!-- 用户列表 -->
+      <view class="user-list">
+        <view class="user-item" wx:for="{{userList}}" wx:key="_id">
+          <view class="user-card" bindtap="viewUserDetail" data-id="{{item._id}}">
+            <image class="user-avatar" src="{{item.avatarUrl || '/images/default-avatar.png'}}" mode="aspectFill"></image>
+            <view class="user-info">
+              <view class="user-name">{{item.nickName || '未知用户'}}</view>
+              <view class="user-meta">
+                <text class="user-campus">{{item.campus || '未知校区'}}</text>
+                <text class="user-status status-{{item.status || 1}}">
+                  {{item.status === 0 ? '已禁用' : '正常'}}
+                </text>
+              </view>
+              <view class="user-stats">
+                <text class="user-stat">发布: {{item.goodsCount || 0}}</text>
+                <text class="user-stat">评分: {{item.sellerRating || 5.0}}</text>
+              </view>
+            </view>
+          </view>
+          <view class="user-actions">
+            <view class="action-btn view-btn" bindtap="viewUserDetail" data-id="{{item._id}}">查看</view>
+            <view class="action-btn enable-btn" wx:if="{{item.status === 0}}" bindtap="enableUser" data-id="{{item._id}}" data-index="{{index}}">启用</view>
+            <view class="action-btn ban-btn" wx:if="{{item.status !== 0}}" bindtap="banUser" data-id="{{item._id}}" data-index="{{index}}">禁用</view>
+          </view>
+        </view>
+
+        <!-- 加载更多 -->
+        <view class="load-more" wx:if="{{hasMoreUsers && !loading}}">
+          <text class="load-more-text">上拉加载更多</text>
+        </view>
+        <view class="load-more" wx:if="{{!hasMoreUsers && userList.length > 0}}">
+          <text class="load-more-text">没有更多了</text>
+        </view>
+        <view class="empty-list" wx:if="{{userList.length === 0 && !loading}}">
+          <image class="empty-icon" src="/images/empty-user.png" mode="aspectFit"></image>
+          <view class="empty-text">暂无用户</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 数据统计 -->
+    <view class="tab-content" wx:if="{{activeTab === 2}}">
+      <view class="statistics-container">
+        <!-- 总体数据 -->
+        <view class="stat-section">
+          <view class="section-title">总体数据</view>
+          <view class="stat-cards">
+            <view class="stat-card">
+              <view class="stat-value">{{statistics.totalUsers}}</view>
+              <view class="stat-label">总用户数</view>
+            </view>
+            <view class="stat-card">
+              <view class="stat-value">{{statistics.totalGoods}}</view>
+              <view class="stat-label">总商品数</view>
+            </view>
+            <view class="stat-card">
+              <view class="stat-value">{{statistics.totalOrders}}</view>
+              <view class="stat-label">总订单数</view>
+            </view>
+            <view class="stat-card">
+              <view class="stat-value">¥{{statistics.totalAmount}}</view>
+              <view class="stat-label">总交易额</view>
+            </view>
+          </view>
+        </view>
+
+        <!-- 今日数据 -->
+        <view class="stat-section">
+          <view class="section-title">今日数据</view>
+          <view class="stat-cards">
+            <view class="stat-card">
+              <view class="stat-value">{{statistics.todayUsers}}</view>
+              <view class="stat-label">新增用户</view>
+            </view>
+            <view class="stat-card">
+              <view class="stat-value">{{statistics.todayGoods}}</view>
+              <view class="stat-label">新增商品</view>
+            </view>
+            <view class="stat-card">
+              <view class="stat-value">{{statistics.todayOrders}}</view>
+              <view class="stat-label">今日订单</view>
+            </view>
+            <view class="stat-card">
+              <view class="stat-value">¥{{statistics.todayAmount}}</view>
+              <view class="stat-label">今日交易额</view>
+            </view>
+          </view>
+        </view>
+
+        <!-- 刷新按钮 -->
+        <view class="refresh-btn" bindtap="loadStatistics">刷新数据</view>
+      </view>
+    </view>
+
+    <!-- 系统设置 -->
+    <view class="tab-content" wx:if="{{activeTab === 3}}">
+      <view class="settings-container">
+        <view class="setting-section">
+          <view class="section-title">基础设置</view>
+          <view class="setting-item" bindtap="initCategories">
+            <view class="setting-label">初始化分类数据</view>
+            <view class="setting-action">
+              <text class="iconfont icon-right"></text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </block>
+
+  <!-- 加载中 -->
+  <view class="loading-container" wx:if="{{loading}}">
+    <view class="loading">
+      <image class="loading-icon" src="/images/loading.gif" mode="aspectFit"></image>
+      <text class="loading-text">加载中...</text>
+    </view>
+  </view>
+</view>

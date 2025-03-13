@@ -1,0 +1,73 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/logs/logs",
+    "pages/chat/chat",
+    "pages/detail/detail",
+    "pages/publish/publish",
+    "pages/message/message",
+    "pages/profile/profile",
+    "pages/goods/goods",
+    "pages/goods-detail/goods-detail",
+    "pages/my-favorites/my-favorites",
+    "pages/statistics/statistics",
+    "pages/order-detail/order-detail",
+    "pages/my-orders/my-orders",
+    "pages/review/review",
+    "pages/user-reviews/user-reviews",
+    "pages/goods-reviews/goods-reviews",
+    "pages/search/search",
+    "pages/settings/settings",
+    "pages/login/login",
+    "pages/agreement/agreement",
+    "pages/privacy/privacy",
+    "pages/profile-edit/profile-edit",
+    "pages/admin/admin",
+    "pages/message-list/message-list",
+    "pages/my-goods/my-goods",
+    "pages/favorites/favorites",
+    "pages/about/about",
+    "pages/feedback/feedback"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#FB7299",
+    "navigationBarTitleText": "校园二手交易",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#FB7299",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "images/home.png",
+        "selectedIconPath": "images/home_selected.png"
+      },
+      {
+        "pagePath": "pages/publish/publish",
+        "text": "发布",
+        "iconPath": "images/publish.png",
+        "selectedIconPath": "images/publish_selected.png"
+      },
+      {
+        "pagePath": "pages/message/message",
+        "text": "消息",
+        "iconPath": "images/message.png",
+        "selectedIconPath": "images/message_selected.png"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的",
+        "iconPath": "images/profile.png",
+        "selectedIconPath": "images/profile_selected.png"
+      }
+    ]
+  },
+  "style": "v2",
+  "componentFramework": "glass-easel",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

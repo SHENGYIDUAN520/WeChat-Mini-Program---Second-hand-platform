@@ -1,0 +1,97 @@
+<!-- pages/agreement/agreement.wxml -->
+<view class="container">
+  <view class="header">
+    <view class="back-btn" bindtap="goBack">
+      <text class="back-icon">←</text>
+    </view>
+    <view class="title">用户协议</view>
+  </view>
+  
+  <scroll-view class="content" scroll-y="true">
+    <view class="section">
+      <view class="section-title">1. 总则</view>
+      <view class="section-content">
+        <view class="paragraph">1.1 校园二手交易平台的所有权和运营权归平台所有。</view>
+        <view class="paragraph">1.2 用户在注册之前，应当仔细阅读本协议，并同意遵守本协议的所有条款，才能成为平台的正式用户。</view>
+        <view class="paragraph">1.3 用户应当同意本协议的条款并按照页面上的提示完成全部的注册程序。用户在进行注册程序过程中点击"同意"按钮即表示用户与平台达成协议，完全接受本协议项下的全部条款。</view>
+      </view>
+    </view>
+    
+    <view class="section">
+      <view class="section-title">2. 服务内容</view>
+      <view class="section-content">
+        <view class="paragraph">2.1 校园二手交易平台的具体服务内容由平台根据实际情况提供，包括但不限于允许用户在平台上发布二手商品信息、允许用户通过平台进行交易、收藏商品等。</view>
+        <view class="paragraph">2.2 平台仅提供相关的网络服务，用户在平台上进行交易过程中产生的商品售后、物流、纠纷等问题由交易双方自行协商解决，平台不承担任何责任。</view>
+      </view>
+    </view>
+    
+    <view class="section">
+      <view class="section-title">3. 用户账号</view>
+      <view class="section-content">
+        <view class="paragraph">3.1 用户注册成功后，平台将给予每个用户一个用户账号及相应的密码，该用户账号和密码由用户负责保管。</view>
+        <view class="paragraph">3.2 用户应当对以其用户账号进行的所有活动和事件负法律责任。</view>
+        <view class="paragraph">3.3 用户不得将其账号、密码转让或出借予他人使用。如用户发现其账号遭他人非法使用或存在其他安全问题，应立即通知平台。</view>
+      </view>
+    </view>
+    
+    <view class="section">
+      <view class="section-title">4. 用户行为规范</view>
+      <view class="section-content">
+        <view class="paragraph">4.1 用户在使用平台服务时，必须遵守中华人民共和国相关法律法规的规定，不得利用平台服务从事违法违规行为，包括但不限于：</view>
+        <view class="paragraph indent">4.1.1 发布、传送、传播、储存违反国家法律法规禁止的内容；</view>
+        <view class="paragraph indent">4.1.2 发布、传送、传播、储存侵害他人名誉权、肖像权、知识产权、商业秘密等合法权利的内容；</view>
+        <view class="paragraph indent">4.1.3 发布、传送、传播虚假广告信息或垃圾信息；</view>
+        <view class="paragraph indent">4.1.4 从事其他违反法律法规、政策及公序良俗、社会公德等的行为。</view>
+        <view class="paragraph">4.2 用户不得通过任何手段恶意注册平台账号，包括但不限于以牟利、炒作、套现、获奖等为目的多个账号注册。</view>
+        <view class="paragraph">4.3 用户在交易过程中应当遵守诚实信用原则，不得从事欺诈或其他损害其他用户合法权益的行为。</view>
+      </view>
+    </view>
+    
+    <view class="section">
+      <view class="section-title">5. 知识产权</view>
+      <view class="section-content">
+        <view class="paragraph">5.1 平台提供的服务中包含的任何文本、图片、图形、音频和/或视频资料均受版权、商标和/或其他财产所有权法律的保护，未经相关权利人同意，上述资料均不得在任何媒体直接或间接发布、播放、展示或传播。</view>
+        <view class="paragraph">5.2 平台尊重知识产权，同时也要求我们的用户尊重知识产权。</view>
+      </view>
+    </view>
+    
+    <view class="section">
+      <view class="section-title">6. 免责声明</view>
+      <view class="section-content">
+        <view class="paragraph">6.1 用户明确同意其使用平台服务所存在的风险将完全由其自己承担；因其使用平台服务而产生的一切后果也由其自己承担，平台对用户不承担任何责任。</view>
+        <view class="paragraph">6.2 平台不保证服务一定能满足用户的要求，也不保证服务不会中断，对服务的及时性、安全性、准确性也都不作保证。</view>
+        <view class="paragraph">6.3 对于因不可抗力或平台不能控制的原因造成的服务中断或其它缺陷，平台不承担任何责任，但将尽力减少因此而给用户造成的损失和影响。</view>
+      </view>
+    </view>
+    
+    <view class="section">
+      <view class="section-title">7. 协议修改</view>
+      <view class="section-content">
+        <view class="paragraph">7.1 平台有权随时修改本协议的任何条款，一旦本协议的内容发生变动，平台将会在平台内显著位置提示修改内容。</view>
+        <view class="paragraph">7.2 如果用户不同意平台对本协议相关条款所做的修改，用户有权停止使用平台服务。如果用户继续使用平台服务，则视为用户接受平台对本协议相关条款所做的修改。</view>
+      </view>
+    </view>
+    
+    <view class="section">
+      <view class="section-title">8. 法律管辖</view>
+      <view class="section-content">
+        <view class="paragraph">8.1 本协议的订立、执行和解释及争议的解决均应适用中华人民共和国法律。</view>
+        <view class="paragraph">8.2 如双方就本协议内容或其执行发生任何争议，双方应尽量友好协商解决；协商不成时，任何一方均可向平台所在地的人民法院提起诉讼。</view>
+      </view>
+    </view>
+    
+    <view class="section">
+      <view class="section-title">9. 其他规定</view>
+      <view class="section-content">
+        <view class="paragraph">9.1 本协议构成双方对本协议之约定事项及其他有关事宜的完整协议，除本协议规定的之外，未赋予本协议各方其他权利。</view>
+        <view class="paragraph">9.2 如本协议中的任何条款无论因何种原因完全或部分无效或不具有执行力，本协议的其余条款仍应有效并且有约束力。</view>
+        <view class="paragraph">9.3 本协议中的标题仅为方便而设，不具有任何法律或契约效果。</view>
+      </view>
+    </view>
+    
+    <view class="footer">
+      <view class="footer-text">校园二手交易平台</view>
+      <view class="footer-date">更新日期：2025年3月12日</view>
+    </view>
+  </scroll-view>
+</view> 

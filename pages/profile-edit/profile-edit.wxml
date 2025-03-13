@@ -1,0 +1,62 @@
+<!-- pages/profile-edit/profile-edit.wxml -->
+<view class="profile-edit-container">
+  <!-- 顶部导航栏 -->
+  <view class="nav-bar">
+    <view class="nav-back" bindtap="navigateBack">
+      <text class="iconfont icon-back">←</text>
+    </view>
+    <view class="nav-title">编辑资料</view>
+    <view class="nav-right"></view>
+  </view>
+
+  <!-- 头像编辑 -->
+  <view class="avatar-section">
+    <view class="avatar-wrapper">
+      <image class="avatar" src="{{userInfo.avatarUrl || '/images/default-avatar.png'}}"></image>
+      <view class="avatar-edit-icon" bindtap="chooseAvatar">
+        <text class="iconfont icon-camera">📷</text>
+      </view>
+    </view>
+    <view class="avatar-tip">点击更换头像</view>
+  </view>
+
+  <!-- 表单区域 -->
+  <view class="form-section">
+    <view class="form-group">
+      <view class="form-item">
+        <view class="form-label">昵称</view>
+        <input class="form-input" value="{{userInfo.nickName}}" placeholder="请输入昵称" bindinput="inputNickname" maxlength="20" />
+      </view>
+      <view class="form-item">
+        <view class="form-label">性别</view>
+        <view class="form-radio-group">
+          <view class="form-radio {{userInfo.gender == 1 ? 'active' : ''}}" bindtap="selectGender" data-gender="1">
+            <text class="radio-icon">{{userInfo.gender == 1 ? '●' : '○'}}</text>
+            <text class="radio-text">男</text>
+          </view>
+          <view class="form-radio {{userInfo.gender == 2 ? 'active' : ''}}" bindtap="selectGender" data-gender="2">
+            <text class="radio-icon">{{userInfo.gender == 2 ? '●' : '○'}}</text>
+            <text class="radio-text">女</text>
+          </view>
+        </view>
+      </view>
+      <view class="form-item">
+        <view class="form-label">学校</view>
+        <picker mode="selector" range="{{campusList}}" value="{{campusIndex}}" bindchange="selectCampus">
+          <view class="form-picker">
+            <text>{{campusList[campusIndex] || '请选择学校'}}</text>
+            <text class="picker-arrow">></text>
+          </view>
+        </picker>
+      </view>
+      <view class="form-item">
+        <view class="form-label">个性签名</view>
+        <textarea class="form-textarea" value="{{userInfo.signature}}" placeholder="介绍一下自己吧~" bindinput="inputSignature" maxlength="100"></textarea>
+        <view class="textarea-counter">{{signatureLength}}/100</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 保存按钮 -->
+  <view class="save-btn" bindtap="saveProfile">保存</view>
+</view> 
