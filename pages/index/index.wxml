@@ -1,5 +1,14 @@
 <!--index.wxml-->
-<view class="container">
+<view wx:if="{{isError}}" class="error-container">
+  <view class="error-content">
+    <icon type="warn" size="60" color="#f8d548"></icon>
+    <view class="error-text">{{errorMsg || '加载失败，请重试'}}</view>
+    <view class="error-desc" wx:if="{{errorMsg.includes('云服务')}}">可能是云服务连接出现问题，请检查网络后重试</view>
+    <button class="retry-btn" bindtap="retryLoad">重新加载</button>
+  </view>
+</view>
+
+<view class="container" wx:if="{{!isError}}">
   <!-- 搜索框 -->
   <view class="search-bar" bindtap="navigateToSearch">
     <view class="search-input-wrap">
@@ -20,11 +29,25 @@
 
   <!-- 分类导航 -->
   <view class="category-nav animate-fade-in" style="animation-delay: 0.1s;">
-    <view class="category-item" wx:for="{{categories}}" wx:key="id" bindtap="navigateToCategory" data-id="{{item.id}}">
-      <view class="category-icon">
-        <image src="{{item.icon}}" mode="aspectFit"></image>
+    <view class="category-row">
+      <view class="category-item" wx:for="{{categories}}" wx:key="id" wx:if="{{index < 4}}" bindtap="navigateToCategory" data-id="{{item.id}}">
+        <view class="category-icon">
+          <image src="{{item.icon}}" mode="aspectFit"></image>
+        </view>
+        <view class="category-name">{{item.name}}</view>
       </view>
-      <view class="category-name">{{item.name}}</view>
+    </view>
+    <view class="category-row {{showMoreCategories ? 'category-row-expanded' : 'category-row-collapsed'}}">
+      <view class="category-item" wx:for="{{categories}}" wx:key="id" wx:if="{{index >= 4}}" bindtap="navigateToCategory" data-id="{{item.id}}">
+        <view class="category-icon">
+          <image src="{{item.icon}}" mode="aspectFit"></image>
+        </view>
+        <view class="category-name">{{item.name}}</view>
+      </view>
+    </view>
+    <view class="category-toggle" bindtap="toggleCategories">
+      <text>{{showMoreCategories ? '收起' : '更多'}}</text>
+      <view class="toggle-icon {{showMoreCategories ? 'toggle-icon-up' : 'toggle-icon-down'}}"></view>
     </view>
   </view>
 
@@ -85,10 +108,9 @@
   </view>
 
   <!-- 加载更多 -->
-  <view class="loading" wx:if="{{loading}}">
-    <view class="loading-dot"></view>
-    <view class="loading-dot"></view>
-    <view class="loading-dot"></view>
+  <view class="loading" wx:if="{{loading && !isError}}">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">加载中...</text>
   </view>
   <view class="load-more" wx:else bindtap="loadMore">{{hasMore ? '点击加载更多' : '没有更多了~'}}</view>
   

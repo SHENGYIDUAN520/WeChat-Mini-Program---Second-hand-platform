@@ -1,29 +1,63 @@
 {
   "compileType": "miniprogram",
-  "libVersion": "trial",
+  "libVersion": "2.30.0",
   "packOptions": {
     "ignore": [],
     "include": []
   },
   "setting": {
+    "bundle": false,
+    "userConfirmedBundleSwitch": false,
+    "urlCheck": true,
+    "scopeDataCheck": false,
     "coverView": true,
-    "es6": true,
+    "es6": false,
     "postcss": true,
+    "compileHotReLoad": false,
+    "lazyloadPlaceholderEnable": false,
+    "preloadBackgroundData": false,
     "minified": true,
-    "enhance": true,
-    "showShadowRootInWxmlPanel": true,
-    "packNpmRelationList": [],
+    "autoAudits": false,
+    "newFeature": false,
+    "uglifyFileName": false,
+    "uploadWithSourceMap": true,
+    "useIsolateContext": true,
+    "nodeModules": false,
+    "enhance": false,
+    "useMultiFrameRuntime": true,
+    "showShadowRootInWxmlPanel": false,
+    "packNpmManually": false,
+    "enableEngineNative": false,
+    "minifyWXSS": true,
+    "showES6CompileOption": false,
+    "minifyWXML": true,
+    "ignoreUploadUnusedFiles": true,
+    "useStaticServer": true,
+    "condition": false,
     "babelSetting": {
       "ignore": [],
-      "disablePlugins": [],
+      "disablePlugins": [
+        "transform-regenerator"
+      ],
       "outputPath": ""
-    }
+    },
+    "disableUseStrict": true,
+    "useCompilerPlugins": false,
+    "packNpmRelationList": [],
+    "ignoreDevUnusedFiles": false,
+    "localPlugins": false,
+    "checkInvalidKey": true,
+    "checkSiteMap": true,
+    "disablePublicLibCheck": true,
+    "disableDownloadPublicLib": true
   },
   "condition": {},
   "editorSetting": {
-    "tabIndent": "auto",
+    "tabIndent": "insertSpaces",
     "tabSize": 2
   },
+  "description": "项目配置文件",
+  "srcMiniprogramRoot": "miniprogram/",
   "appid": "wx7aebf0be6f94928c",
   "cloudfunctionRoot": "cloudfunctions/",
   "cloudfunctionTemplateRoot": "cloudfunctionTemplate/"

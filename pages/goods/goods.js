@@ -24,25 +24,43 @@ Page({
   },
 
   onLoad: function(options) {
+    console.log('goods页面接收到的参数:', options);
+    
     // 如果有分类参数，设置选中的分类
     if (options.category) {
+      // 分类ID可能为数字
+      const categoryId = options.category;
+      
       this.setData({
-        selectedCategory: options.category
-      })
+        selectedCategory: categoryId
+      });
+      
+      // 设置标题为分类名称
+      if (options.categoryName) {
+        try {
+          const categoryName = decodeURIComponent(options.categoryName);
+          wx.setNavigationBarTitle({
+            title: categoryName || '商品列表'
+          });
+          console.log('设置导航栏标题:', categoryName);
+        } catch (err) {
+          console.error('解码分类名称失败', err);
+        }
+      }
     }
     
     // 如果有搜索参数，设置搜索值
     if (options.search) {
       this.setData({
         searchValue: options.search
-      })
+      });
     }
     
     // 加载分类列表
-    this.loadCategories()
+    this.loadCategories();
     
     // 加载商品列表
-    this.loadGoodsList(true)
+    this.loadGoodsList(true);
   },
   
   // 加载分类列表
@@ -78,27 +96,35 @@ Page({
         goodsList: [],
         loading: true,
         hasMore: true
-      })
+      });
     } else {
       if (!this.data.hasMore || this.data.loadingMore) {
-        return
+        return;
       }
       this.setData({
         loadingMore: true
-      })
+      });
     }
     
-    const page = this.data.page
-    const pageSize = this.data.pageSize
+    const page = this.data.page;
+    const pageSize = this.data.pageSize;
     
     // 构建查询条件
-    const query = {
+    let query = {
       status: 'on_sale' // 只查询在售商品
-    }
+    };
     
     // 如果有选中分类，添加分类条件
     if (this.data.selectedCategory) {
-      query.category = this.data.selectedCategory
+      // 尝试通过category_id或category字段查询
+      // 在控制台输出日志便于调试
+      console.log('查询分类:', this.data.selectedCategory);
+      
+      // 使用逻辑或查询，同时匹配category_id和category字段
+      query = db.command.or([
+        { category_id: this.data.selectedCategory },
+        { category: this.data.selectedCategory }
+      ]);
     }
     
     // 如果有搜索关键词，添加标题搜索条件
@@ -200,14 +226,42 @@ Page({
   
   // 切换分类
   switchCategory: function(e) {
-    const category = e.currentTarget.dataset.id
+    const categoryId = e.currentTarget.dataset.id;
     
-    this.setData({
-      selectedCategory: this.data.selectedCategory === category ? '' : category
-    })
+    // 如果点击的是当前选中的分类，则取消选中
+    if (categoryId === this.data.selectedCategory) {
+      this.setData({
+        selectedCategory: ''
+      });
+      
+      // 重置标题
+      wx.setNavigationBarTitle({
+        title: '商品列表'
+      });
+    } else {
+      this.setData({
+        selectedCategory: categoryId
+      });
+      
+      // 设置标题为分类名称
+      if (categoryId) {
+        // 从分类列表中查找对应的分类名称
+        const categoryItem = this.data.categories.find(item => item._id === categoryId);
+        if (categoryItem) {
+          wx.setNavigationBarTitle({
+            title: categoryItem.name
+          });
+        }
+      }
+    }
     
     // 重新加载商品列表
-    this.loadGoodsList(true)
+    this.setData({
+      page: 0,
+      goodsList: [],
+      hasMore: true
+    });
+    this.loadGoodsList(true);
   },
   
   // 搜索商品

@@ -31,43 +31,54 @@
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#FB7299",
-    "navigationBarTitleText": "校园二手交易",
-    "navigationBarTextStyle": "white"
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "校园二手交易平台",
+    "navigationBarTextStyle": "black"
   },
   "tabBar": {
-    "color": "#999999",
-    "selectedColor": "#FB7299",
-    "backgroundColor": "#ffffff",
+    "custom": false,
+    "color": "#8a8a8a",
+    "selectedColor": "#1296db",
+    "backgroundColor": "#fff",
+    "borderStyle": "black",
     "list": [
       {
         "pagePath": "pages/index/index",
         "text": "首页",
-        "iconPath": "images/home.png",
-        "selectedIconPath": "images/home_selected.png"
+        "iconPath": "images/tabbar/home.png",
+        "selectedIconPath": "images/tabbar/home_selected.png"
       },
       {
         "pagePath": "pages/publish/publish",
         "text": "发布",
-        "iconPath": "images/publish.png",
-        "selectedIconPath": "images/publish_selected.png"
+        "iconPath": "images/tabbar/publish.png",
+        "selectedIconPath": "images/tabbar/publish_selected.png"
       },
       {
         "pagePath": "pages/message/message",
         "text": "消息",
-        "iconPath": "images/message.png",
-        "selectedIconPath": "images/message_selected.png"
+        "iconPath": "images/tabbar/message.png",
+        "selectedIconPath": "images/tabbar/message_selected.png"
       },
       {
         "pagePath": "pages/profile/profile",
         "text": "我的",
-        "iconPath": "images/profile.png",
-        "selectedIconPath": "images/profile_selected.png"
+        "iconPath": "images/tabbar/profile.png",
+        "selectedIconPath": "images/tabbar/profile_selected.png"
       }
     ]
   },
   "style": "v2",
-  "componentFramework": "glass-easel",
   "sitemapLocation": "sitemap.json",
-  "lazyCodeLoading": "requiredComponents"
+  "debug": false,
+  "lazyCodeLoading": "requiredComponents",
+  "resizable": false,
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于展示附近的商品"
+    }
+  },
+  "useExtendedLib": {
+    "weui": true
+  }
 }

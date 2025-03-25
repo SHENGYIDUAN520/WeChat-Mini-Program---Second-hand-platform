@@ -107,81 +107,117 @@ Page({
 
   // 加载我发布的商品
   loadMyGoods: function() {
-    if (!this.data.isLogin) return
+    if (!this.data.isLogin) return;
     
     this.setData({
       loading: true
-    })
+    });
     
-    db.collection('goods')
-      .where({
-        _openid: this.data.userInfo.openid
-      })
-      .orderBy('createTime', 'desc')
-      .get()
-      .then(res => {
-        this.setData({
-          myGoods: res.data,
-          loading: false
+    // 获取安全的数据库实例
+    try {
+      const db = wx.cloud.database();
+      
+      db.collection('goods')
+        .where({
+          _openid: this.data.userInfo.openid
         })
-      })
-      .catch(err => {
-        console.error(err)
-        this.setData({
-          loading: false
+        .orderBy('createTime', 'desc')
+        .get()
+        .then(res => {
+          this.setData({
+            myGoods: res.data,
+            loading: false
+          });
         })
-      })
+        .catch(err => {
+          console.error('加载我的商品失败', err);
+          this.setData({
+            loading: false
+          });
+          wx.showToast({
+            title: '加载失败，请重试',
+            icon: 'none'
+          });
+        });
+    } catch (e) {
+      console.error('获取数据库实例失败', e);
+      this.setData({
+        loading: false
+      });
+      wx.showToast({
+        title: '系统错误，请重试',
+        icon: 'none'
+      });
+    }
   },
 
   // 加载我的订单
   loadMyOrders: function() {
-    if (!this.data.isLogin) return
+    if (!this.data.isLogin) return;
     
     this.setData({
       loading: true
-    })
+    });
     
-    db.collection('orders')
-      .where({
-        buyerId: this.data.userInfo.openid
-      })
-      .orderBy('createTime', 'desc')
-      .get()
-      .then(res => {
-        const orders = res.data
-        const goodsPromises = []
-        
-        // 获取订单关联的商品信息
-        orders.forEach(order => {
-          goodsPromises.push(
-            db.collection('goods')
-              .doc(order.goodsId)
-              .get()
-              .then(goodsRes => {
-                order.goods = goodsRes.data
-                return order
-              })
-              .catch(() => {
-                order.goods = { title: '商品已删除' }
-                return order
-              })
-          )
+    try {
+      const db = wx.cloud.database();
+      let orders = [];
+      
+      db.collection('orders')
+        .where({
+          buyerId: this.data.userInfo.openid
         })
-        
-        return Promise.all(goodsPromises)
-      })
-      .then(() => {
-        this.setData({
-          myOrders: orders,
-          loading: false
+        .orderBy('createTime', 'desc')
+        .get()
+        .then(res => {
+          orders = res.data;
+          const goodsPromises = [];
+          
+          // 获取订单关联的商品信息
+          orders.forEach(order => {
+            goodsPromises.push(
+              db.collection('goods')
+                .doc(order.goodsId)
+                .get()
+                .then(goodsRes => {
+                  order.goods = goodsRes.data;
+                  return order;
+                })
+                .catch(() => {
+                  order.goods = { title: '商品已删除' };
+                  return order;
+                })
+            );
+          });
+          
+          return Promise.all(goodsPromises);
         })
-      })
-      .catch(err => {
-        console.error(err)
-        this.setData({
-          loading: false
+        .then(() => {
+          this.setData({
+            myOrders: orders,
+            loading: false
+          });
         })
-      })
+        .catch(err => {
+          console.error('加载我的订单失败', err);
+          this.setData({
+            loading: false
+          });
+          wx.showToast({
+            title: '加载失败，请重试',
+            icon: 'none'
+          });
+        });
+    } catch (e) {
+      console.error('获取数据库实例失败', e);
+      this.setData({
+        loading: false
+      });
+      wx.showToast({
+        title: '系统错误，请重试',
+        icon: 'none'
+      });
+    }
   },
 
   // 编辑个人资料
