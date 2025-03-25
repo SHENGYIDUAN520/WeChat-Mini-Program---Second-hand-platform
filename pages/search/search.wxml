@@ -6,64 +6,67 @@
       <text class="iconfont icon-back"></text>
     </view>
     <view class="search-bar">
-      <input class="search-input" placeholder="搜索二次元周边" confirm-type="search" value="{{keyword}}" bindinput="onInputChange" bindconfirm="onSearch" focus="{{true}}" />
+      <input class="search-input" placeholder="搜索校园二手商品" confirm-type="search" value="{{keyword}}" bindinput="onInputChange" bindconfirm="onSearch" focus="{{true}}" />
       <text class="iconfont icon-search"></text>
     </view>
     <view class="search-btn" bindtap="onSearch">搜索</view>
   </view>
 
-  <!-- 历史搜索 -->
-  <view class="search-history" wx:if="{{showHistory && historyKeywords.length > 0}}">
-    <view class="section-header">
-      <view class="section-title">历史搜索</view>
-      <view class="clear-btn" bindtap="clearHistory">清空</view>
-    </view>
-    <view class="tag-list">
-      <view class="tag animate-fade-in" 
-            wx:for="{{historyKeywords}}" 
-            wx:key="*this" 
-            bindtap="onTagTap" 
-            data-keyword="{{item}}"
-            style="animation-delay: {{index * 0.05}}s">
-        {{item}}
+  <!-- 搜索内容区域 -->
+  <view class="search-content" wx:if="{{showHistory || showHot}}">
+    <!-- 历史搜索 -->
+    <view class="search-history" wx:if="{{showHistory && historyKeywords.length > 0}}">
+      <view class="section-header">
+        <view class="section-title">历史搜索</view>
+        <view class="clear-btn" bindtap="clearHistory">清空</view>
       </view>
-    </view>
-  </view>
-
-  <!-- 热门搜索 -->
-  <view class="hot-search" wx:if="{{showHot}}">
-    <view class="section-header">
-      <view class="section-title">热门搜索</view>
-    </view>
-    <view class="tag-list">
-      <view class="tag hot-tag animate-fade-in" 
-            wx:for="{{hotKeywords}}" 
-            wx:key="*this" 
-            bindtap="onTagTap" 
-            data-keyword="{{item}}"
-            style="animation-delay: {{index * 0.05}}s">
-        {{item}}
-      </view>
-    </view>
-  </view>
-
-  <!-- 分类导航 -->
-  <view class="category-section" wx:if="{{showHot}}">
-    <view class="section-header">
-      <view class="section-title">分类导航</view>
-    </view>
-    <view class="category-list">
-      <view class="category-item animate-fade-in" 
-            wx:for="{{categories}}" 
-            wx:key="id" 
-            bindtap="onCategoryTap" 
-            data-id="{{item.id}}" 
-            data-name="{{item.name}}"
-            style="animation-delay: {{index * 0.05}}s">
-        <view class="category-icon">
-          <image src="{{item.icon}}" mode="aspectFit"></image>
+      <view class="tag-list">
+        <view class="tag animate-fade-in" 
+              wx:for="{{historyKeywords}}" 
+              wx:key="*this" 
+              bindtap="onTagTap" 
+              data-keyword="{{item}}"
+              style="animation-delay: {{index * 0.05}}s">
+          {{item}}
         </view>
-        <view class="category-name">{{item.name}}</view>
+      </view>
+    </view>
+
+    <!-- 热门搜索 -->
+    <view class="hot-search" wx:if="{{showHot}}">
+      <view class="section-header">
+        <view class="section-title">热门搜索</view>
+      </view>
+      <view class="tag-list">
+        <view class="tag hot-tag animate-fade-in" 
+              wx:for="{{hotKeywords}}" 
+              wx:key="*this" 
+              bindtap="onTagTap" 
+              data-keyword="{{item}}"
+              style="animation-delay: {{index * 0.05}}s">
+          {{item}}
+        </view>
+      </view>
+    </view>
+
+    <!-- 分类导航 -->
+    <view class="category-section" wx:if="{{showHot}}">
+      <view class="section-header">
+        <view class="section-title">分类导航</view>
+      </view>
+      <view class="category-list">
+        <view class="category-item animate-fade-in" 
+              wx:for="{{categories}}" 
+              wx:key="id" 
+              bindtap="onCategoryTap" 
+              data-id="{{item.id}}" 
+              data-name="{{item.name}}"
+              style="animation-delay: {{index * 0.05}}s">
+          <view class="category-icon">
+            <image src="{{item.icon}}" mode="aspectFit"></image>
+          </view>
+          <view class="category-name">{{item.name}}</view>
+        </view>
       </view>
     </view>
   </view>
@@ -73,9 +76,9 @@
     <view class="result-header">
       <view class="result-count">找到 {{searchResults.length}} 个相关商品</view>
       <view class="result-sort">
-        <text class="sort-item active">综合</text>
-        <text class="sort-item">最新</text>
-        <text class="sort-item">价格</text>
+        <text class="sort-item {{sortType === 'comprehensive' ? 'active' : ''}}" bindtap="onSortTap" data-type="comprehensive">综合</text>
+        <text class="sort-item {{sortType === 'newest' ? 'active' : ''}}" bindtap="onSortTap" data-type="newest">最新</text>
+        <text class="sort-item {{sortType === 'price' ? 'active' : ''}}" bindtap="onSortTap" data-type="price">价格</text>
       </view>
     </view>
     

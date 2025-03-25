@@ -25,47 +25,16 @@ page {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  padding-bottom: 40rpx;
+  padding-bottom: 50rpx;
   box-sizing: border-box;
   animation: fadeIn 0.3s ease;
-}
-
-/* 顶部导航栏 */
-.nav-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 90rpx;
-  background-color: var(--theme-color);
-  color: #fff;
-  padding: 0 30rpx;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
-}
-
-.nav-back {
-  width: 60rpx;
-  height: 60rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.nav-title {
-  font-size: 34rpx;
-  font-weight: bold;
-}
-
-.nav-right {
-  width: 60rpx;
 }
 
 /* 设置列表 */
 .settings-list {
   flex: 1;
   padding: 30rpx;
+  margin-top: 20rpx;
 }
 
 .settings-group {

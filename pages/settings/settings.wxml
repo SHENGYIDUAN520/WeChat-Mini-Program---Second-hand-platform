@@ -1,13 +1,6 @@
 <!-- pages/settings/settings.wxml -->
 <view class="settings-container">
-  <!-- 顶部导航栏 -->
-  <view class="nav-bar">
-    <view class="nav-back" bindtap="navigateBack">
-      <text class="iconfont icon-back">←</text>
-    </view>
-    <view class="nav-title">设置</view>
-    <view class="nav-right"></view>
-  </view>
+  <!-- 顶部导航栏 - 移除多余的自定义导航栏 -->
 
   <!-- 设置列表 -->
   <view class="settings-list">
@@ -30,16 +23,7 @@
           <view class="item-name">消息通知</view>
           <switch checked="{{notificationEnabled}}" color="#FB7299" bindchange="toggleNotification"></switch>
         </view>
-        <navigator url="/pages/theme/theme" class="setting-item">
-          <view class="item-name">主题设置</view>
-          <view class="item-value">{{currentTheme}}</view>
-          <view class="item-arrow">></view>
-        </navigator>
-        <navigator url="/pages/language/language" class="setting-item">
-          <view class="item-name">语言设置</view>
-          <view class="item-value">{{currentLanguage}}</view>
-          <view class="item-arrow">></view>
-        </navigator>
+        <!-- 移除未实现的主题设置和语言设置 -->
         <view class="setting-item" bindtap="clearCache">
           <view class="item-name">清除缓存</view>
           <view class="item-value">{{cacheSize}}</view>

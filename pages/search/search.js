@@ -14,6 +14,7 @@ Page({
     showHistory: true,
     showHot: true,
     showResults: false,
+    sortType: 'comprehensive',
     categories: [
       { id: 1, name: '电子产品', icon: '/images/category/digital.png' },
       { id: 2, name: '图书教材', icon: '/images/category/books.png' },
@@ -89,7 +90,8 @@ Page({
       showResults: true,
       loading: true,
       page: 0,
-      searchResults: []
+      searchResults: [],
+      sortType: 'comprehensive' // 重置排序方式为默认的综合排序
     });
     
     // 调用云函数进行搜索
@@ -103,8 +105,13 @@ Page({
     }).then(res => {
       const result = res.result;
       if (result.code === 0) {
+        let goods = result.data.goods;
+        
+        // 根据当前排序方式对结果进行排序
+        this.sortResults(goods);
+        
         this.setData({
-          searchResults: result.data.goods,
+          searchResults: goods,
           loading: false,
           hasMore: result.data.hasMore
         });
@@ -232,8 +239,14 @@ Page({
     }).then(res => {
       const result = res.result;
       if (result.code === 0) {
+        let newGoods = result.data.goods;
+        let allGoods = [...this.data.searchResults, ...newGoods];
+        
+        // 对合并后的结果进行排序
+        this.sortResults(allGoods);
+        
         this.setData({
-          searchResults: [...this.data.searchResults, ...result.data.goods],
+          searchResults: allGoods,
           loading: false,
           hasMore: result.data.hasMore
         });
@@ -263,5 +276,61 @@ Page({
    */
   goBack: function () {
     wx.navigateBack();
+  },
+
+  /**
+   * 排序方式点击事件处理
+   */
+  onSortTap: function (e) {
+    const type = e.currentTarget.dataset.type;
+    
+    // 如果点击当前已选中的排序方式，不做处理
+    if (type === this.data.sortType) return;
+    
+    this.setData({
+      sortType: type,
+      loading: true
+    });
+    
+    // 对当前结果进行排序
+    let sortedResults = [...this.data.searchResults];
+    this.sortResults(sortedResults);
+    
+    // 更新排序后的数据
+    setTimeout(() => {
+      this.setData({
+        searchResults: sortedResults,
+        loading: false
+      });
+    }, 300); // 添加短暂延时，让用户感知到有排序过程
+  },
+  
+  /**
+   * 根据当前的排序方式对结果进行排序
+   */
+  sortResults: function(results) {
+    const type = this.data.sortType;
+    
+    if (type === 'newest') {
+      // 按照上架时间排序（假设数据中有createTime字段）
+      results.sort((a, b) => {
+        return new Date(b.createTime || b.createAt || 0) - new Date(a.createTime || a.createAt || 0);
+      });
+    } else if (type === 'price') {
+      // 按照价格从低到高排序
+      results.sort((a, b) => {
+        return parseFloat(a.price) - parseFloat(b.price);
+      });
+    } else {
+      // 综合排序，可以根据多个因素计算权重
+      results.sort((a, b) => {
+        // 可以根据浏览量、收藏数等计算综合得分
+        const scoreA = (a.views || 0) + (a.favorites || 0) * 2;
+        const scoreB = (b.views || 0) + (b.favorites || 0) * 2;
+        return scoreB - scoreA;
+      });
+    }
+    
+    return results;
   }
 }) 

@@ -69,30 +69,6 @@ Page({
         title: '校园二手交易平台',
         url: '/pages/about/about'
       },
-      {
-        id: 2,
-        image: '/images/covers/banner2.jpg',
-        title: '新品上架优惠多',
-        url: '/pages/goods/goods?type=new'
-      },
-      {
-        id: 3,
-        image: '/images/covers/banner3.jpg',
-        title: '校园闲置换钱',
-        url: '/pages/publish/publish'
-      },
-      {
-        id: 4,
-        image: '/images/covers/banner4.jpg',
-        title: '品质二手商品',
-        url: '/pages/goods-list/goods-list?categoryId=1'
-      },
-      {
-        id: 5,
-        image: '/images/covers/banner5.jpg',
-        title: '校园二手交易',
-        url: '/pages/goods-list/goods-list?categoryId=2'
-      }
     ],
     recommendGoods: [], // 推荐商品
     newGoods: [] // 最新上架商品
