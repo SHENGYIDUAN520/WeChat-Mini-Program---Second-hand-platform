@@ -1,0 +1,5 @@
+<view class="container">
+  <view class="title">分类初始化测试</view>
+  <view class="desc">点击下方按钮初始化分类数据</view>
+  <button class="init-btn" bindtap="initCategories">初始化分类</button>
+</view> 

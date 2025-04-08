@@ -1,0 +1,26 @@
+.container {
+  padding: 40rpx;
+  text-align: center;
+}
+
+.title {
+  font-size: 36rpx;
+  font-weight: bold;
+  margin-bottom: 20rpx;
+}
+
+.desc {
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 40rpx;
+}
+
+.init-btn {
+  width: 80%;
+  height: 88rpx;
+  line-height: 88rpx;
+  background: #FB7299;
+  color: #fff;
+  border-radius: 44rpx;
+  font-size: 32rpx;
+} 

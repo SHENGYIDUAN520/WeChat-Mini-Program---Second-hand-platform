@@ -393,32 +393,32 @@ Page({
 
   // 加载分类
   loadCategories: function() {
-    // 使用本地数据，返回一个Promise
-    console.log('使用本地分类数据');
-    // 直接返回Promise.resolve，因为我们使用了本地数据
-    return Promise.resolve(this.data.categories);
-    
-    // 如果需要从云数据库加载，可以取消下面的注释
-    /*
-    const db = this.getDB();
+    // 获取数据库实例
+    const db = getDB();
     if (!db) {
-      return Promise.reject(new Error('云数据库未初始化'));
+      console.error('获取数据库实例失败');
+      return Promise.resolve(this.data.categories);
     }
     
     return db.collection('categories')
       .orderBy('sort', 'asc')
       .get()
       .then(res => {
-        this.setData({
-          categories: res.data
-        });
-        return res.data;
+        if (res.data && res.data.length > 0) {
+          console.log('从数据库加载分类成功', res.data);
+          this.setData({
+            categories: res.data
+          });
+          return res.data;
+        } else {
+          console.log('数据库中没有分类数据，使用本地数据');
+          return this.data.categories;
+        }
       })
       .catch(err => {
-        console.error('加载分类失败', err);
-        return [];
+        console.error('加载分类数据失败', err);
+        return this.data.categories;
       });
-    */
   },
 
   // 加载推荐商品

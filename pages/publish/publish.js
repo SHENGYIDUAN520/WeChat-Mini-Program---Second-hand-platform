@@ -61,19 +61,55 @@ Page({
       title: '加载中',
     })
     
-    db.collection('categories').get().then(res => {
-      this.setData({
-        categories: res.data
+    console.log('开始加载分类数据')
+    
+    db.collection('categories')
+      .orderBy('sort', 'asc')
+      .get()
+      .then(res => {
+        console.log('获取到的分类数据:', res.data)
+        if (res.data && res.data.length > 0) {
+          this.setData({
+            categories: res.data
+          })
+          wx.hideLoading()
+        } else {
+          console.log('分类数据为空，尝试初始化')
+          // 如果没有数据，尝试初始化
+          wx.cloud.callFunction({
+            name: 'initCategories',
+            success: (initRes) => {
+              console.log('初始化分类结果:', initRes)
+              if (initRes.result && initRes.result.success) {
+                // 重新加载分类
+                this.loadCategories()
+              } else {
+                wx.hideLoading()
+                wx.showToast({
+                  title: '初始化分类失败',
+                  icon: 'none'
+                })
+              }
+            },
+            fail: (err) => {
+              console.error('初始化分类失败:', err)
+              wx.hideLoading()
+              wx.showToast({
+                title: '初始化分类失败',
+                icon: 'none'
+              })
+            }
+          })
+        }
       })
-      wx.hideLoading()
-    }).catch(err => {
-      console.error('加载分类失败', err)
-      wx.hideLoading()
-      wx.showToast({
-        title: '加载分类失败',
-        icon: 'none'
+      .catch(err => {
+        console.error('加载分类失败', err)
+        wx.hideLoading()
+        wx.showToast({
+          title: '加载分类失败',
+          icon: 'none'
+        })
       })
-    })
   },
 
   /**
@@ -128,10 +164,15 @@ Page({
    * 选择分类
    */
   onCategoryChange: function (e) {
-    this.setData({
-      category: e.detail.value,
-      'formErrors.category': ''
-    })
+    console.log('选择分类:', e.detail)
+    const index = e.detail.value
+    if (index !== undefined && this.data.categories[index]) {
+      this.setData({
+        category: index,
+        'formErrors.category': ''
+      })
+      console.log('已选择分类:', this.data.categories[index].name)
+    }
   },
 
   /**
@@ -373,7 +414,14 @@ Page({
    * 创建商品记录
    */
   createGood: function (fileIDs) {
-    const categoryData = this.data.categories[this.data.category]
+    // 直接从categories数组中获取选中的分类数据
+    const categoryData = this.data.categories[parseInt(this.data.category)];
+    
+    // 检查分类数据是否存在
+    if (!categoryData) {
+      return Promise.reject(new Error('请选择商品分类'));
+    }
+    
     const goodData = {
       title: this.data.title,
       price: parseFloat(this.data.price),
@@ -381,21 +429,21 @@ Page({
       description: this.data.description,
       location: this.data.location,
       images: fileIDs,
-      categoryId: categoryData._id,
+      category: categoryData._id, // 修改字段名为category
       categoryName: categoryData.name,
       condition: parseInt(this.data.condition),
       createTime: db.serverDate(),
       updateTime: db.serverDate(),
-      status: 'on_sale', // 修改为字符串 'on_sale'，与my-goods.js中保持一致
+      status: 'on_sale',
       views: 0,
       likes: 0
     }
     
-    console.log('准备创建商品，数据:', goodData)
+    console.log('准备创建商品，数据:', goodData);
     
     return db.collection('goods').add({
       data: goodData
-    })
+    });
   },
 
   /**
